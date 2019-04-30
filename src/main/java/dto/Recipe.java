@@ -1,9 +1,11 @@
-package model;
+package dto;
+
+import dal.IRecipe;
 
 import javax.persistence.*;
 
 @Entity
-public class Recipe {
+public class Recipe implements IRecipe {
     @Id @GeneratedValue
     @Column(name = "recipe_id")
     private int recipeId;
