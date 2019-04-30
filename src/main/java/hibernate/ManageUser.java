@@ -1,6 +1,6 @@
 package hibernate;
 
-import dto.*;
+import model.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +30,7 @@ public class ManageUser {
                 .addProperties(prop)
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Role.class)
-                .addAnnotatedClass(Ingredient.class)
+                .addAnnotatedClass(Ingredients.class)
                 .addAnnotatedClass(Product.class)
                 .addAnnotatedClass(ProductBatch.class)
                 .addAnnotatedClass(ProductBatchStatus.class)
