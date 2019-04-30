@@ -1,8 +1,8 @@
-package dal;
+package dal_old;
 
 import java.util.List;
 
-import dto.UserDTO;
+import dto_old.UserDTO;
 
 public interface IUserDAO {
 

@@ -1,6 +1,6 @@
-package dal;
+package dal_old;
 
-import dto.UserDTO;
+import dto_old.UserDTO;
 
 import java.util.ArrayList;
 import java.util.List;
