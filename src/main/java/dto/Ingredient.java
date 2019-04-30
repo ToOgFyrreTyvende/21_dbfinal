@@ -1,6 +1,6 @@
 package dto;
 
-import dal.IIngredient;
+import dto.interfaces.IIngredient;
 
 import javax.persistence.*;
 
@@ -10,4 +10,24 @@ public class Ingredient implements IIngredient {
     @Column(name = "ingredient_id")
     private int ingredientId;
     private boolean active;
+
+    @Override
+    public int getIngredientId() {
+        return ingredientId;
+    }
+
+    @Override
+    public void setIngredientId(int ingredientId) {
+        this.ingredientId = ingredientId;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

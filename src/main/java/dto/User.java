@@ -1,6 +1,6 @@
 package dto;
 
-import dal.IUser;
+import dto.interfaces.IUser;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +10,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "User")
 public class User implements IUser {
-
-    private static final long serialVersionUID = 4545864587995944260L;
     @Id
     @Column(name = "user_id")
     private int	userId;

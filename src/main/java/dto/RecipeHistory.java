@@ -1,6 +1,6 @@
 package dto;
 
-import dal.IRecipeHistory;
+import dto.interfaces.IRecipeHistory;
 
 import javax.persistence.*;
 
@@ -9,4 +9,14 @@ public class RecipeHistory implements IRecipeHistory {
     @Id @GeneratedValue
     @Column(name = "recipe_history_id")
     private int recipeHistId;
+
+    @Override
+    public int getRecipeHistId() {
+        return recipeHistId;
+    }
+
+    @Override
+    public void setRecipeHistId(int recipeHistId) {
+        this.recipeHistId = recipeHistId;
+    }
 }

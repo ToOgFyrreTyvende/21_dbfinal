@@ -1,6 +1,6 @@
 package dto;
 
-import dal.IProduct;
+import dto.interfaces.IProduct;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,4 +12,14 @@ public class Product implements IProduct {
     @Id @GeneratedValue
     @Column(name = "product_id")
     private int prodId;
+
+    @Override
+    public int getProdId() {
+        return prodId;
+    }
+
+    @Override
+    public void setProdId(int prodId) {
+        this.prodId = prodId;
+    }
 }

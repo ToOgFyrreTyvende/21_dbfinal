@@ -1,4 +1,4 @@
-package dal_old;
+package dal;
 
 import dto_old.UserDTO;
 

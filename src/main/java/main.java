@@ -1,4 +1,5 @@
-import dal_old.*;
+import dal.IUserDAO;
+import dal.UserDAOMySQL;
 
 public class main {
     public static void main(String[] args){
