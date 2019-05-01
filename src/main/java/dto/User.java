@@ -2,21 +2,41 @@ package dto;
 
 import dto.interfaces.IUser;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "User")
+@Table(name = "User", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "user_id")})
 public class User implements IUser {
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", unique = true, nullable = false)
     private int	userId;
+
+    @Column(name = "user_name", unique = true, nullable = false, length = 45)
     private String userName;
+
+    @Column(name = "initials", unique = false, nullable = false, length = 4)
     private String ini;
+
+    @Column(name = "user_cpr", unique = true, nullable = false, length = 11)
     private String cpr;
+
+    @Column(name = "user_password", unique = false, nullable = false, length = 50)
     private String password;
+
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
+
+    @ManyToMany
+    @JoinTable(name = "users_products",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id")})
+    private Set<Product> products;
     //TODO Add relevant fields
 
     public User() {    }
