@@ -12,7 +12,7 @@ public class User implements IUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, nullable = false)
-    private int	userId;
+    private int userId;
 
     @Column(name = "user_name", unique = true, nullable = false, length = 45)
     private String userName;
@@ -26,7 +26,7 @@ public class User implements IUser {
     @Column(name = "user_password", unique = false, nullable = false, length = 50)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
@@ -39,7 +39,8 @@ public class User implements IUser {
     private Set<Product> products;
     //TODO Add relevant fields
 
-    public User() {    }
+    public User(){
+    }
 
     public User(int _userId, String _username, String _ini, String _cpr, String _password){
         this.userId = _userId;
@@ -50,43 +51,52 @@ public class User implements IUser {
     }
 
     @Override
-    public int getUserId() {
+    public int getUserId(){
         return userId;
     }
+
     @Override
-    public void setUserId(int userId) {
+    public void setUserId(int userId){
         this.userId = userId;
     }
+
     @Override
-    public String getUserName() {
+    public String getUserName(){
         return userName;
     }
+
     @Override
-    public void setUserName(String userName) {
+    public void setUserName(String userName){
         this.userName = userName;
     }
+
     @Override
-    public String getIni() {
+    public String getIni(){
         return ini;
     }
+
     @Override
-    public void setIni(String ini) {
+    public void setIni(String ini){
         this.ini = ini;
     }
+
     @Override
-    public String getCpr() {
+    public String getCpr(){
         return cpr;
     }
+
     @Override
-    public void setCpr(String cpr) {
+    public void setCpr(String cpr){
         this.cpr = cpr;
     }
+
     @Override
-    public String getPassword() {
+    public String getPassword(){
         return password;
     }
+
     @Override
-    public void setPassword(String password) {
+    public void setPassword(String password){
         this.password = password;
     }
 
@@ -125,7 +135,7 @@ public class User implements IUser {
     // }
 
     @Override
-    public String toString() {
+    public String toString(){
         return "User [userId=" + userId + ", userName=" + userName + ", ini=" + ini + "]";
     }
 }
