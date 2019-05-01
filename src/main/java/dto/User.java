@@ -89,6 +89,22 @@ public class User implements IUser {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Set<Role> getRoles(){
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles){
+        this.roles = roles;
+    }
+
+    public Set<Product> getProducts(){
+        return products;
+    }
+
+    public void setProducts(Set<Product> products){
+        this.products = products;
+    }
     // public List<String> getRoles() {
     //     return roles;
     // }
