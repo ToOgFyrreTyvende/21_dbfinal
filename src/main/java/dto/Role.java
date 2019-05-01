@@ -19,6 +19,9 @@ public class Role implements IRole {
     private String roleName;
 
     @ManyToMany
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     Set<User> users;
 
     public Role(){
