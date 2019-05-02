@@ -4,9 +4,10 @@ import dto.interfaces.IProductBatch;
 import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "Product_Batch", uniqueConstraints = {
+@Table(name = "Product_Batches", uniqueConstraints = {
         @UniqueConstraint(columnNames = "product_batch_id")})
 public class ProductBatch implements IProductBatch {
     @Id
@@ -15,15 +16,19 @@ public class ProductBatch implements IProductBatch {
     private int prodBatchId;
 
     @ManyToOne
-    @JoinTable(name = "product_batches",
-            joinColumns = {@JoinColumn(name = "product_batch_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @OneToOne(cascade = CascadeType.ALL)
     @Target(ProductBatchStatus.class)
     @JoinColumn(name = "batch_status_id")
     private ProductBatchStatus batchStatus;
+
+    @ManyToMany
+    @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
+            joinColumns = {@JoinColumn(name = "product_batch_id")},
+            inverseJoinColumns = {@JoinColumn(name = "supplier_batch_id")})
+    private Set<RawMatBatch> rawMatBatches;
 
     public ProductBatch(){
     }
@@ -52,5 +57,13 @@ public class ProductBatch implements IProductBatch {
 
     public void setBatchStatus(ProductBatchStatus batchStatus){
         this.batchStatus = batchStatus;
+    }
+
+    public Set<RawMatBatch> getRawMatBatches(){
+        return rawMatBatches;
+    }
+
+    public void setRawMatBatches(Set<RawMatBatch> rawMatBatches){
+        this.rawMatBatches = rawMatBatches;
     }
 }
