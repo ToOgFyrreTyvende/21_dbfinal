@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "Role", uniqueConstraints = {
+@Table(name = "Roles", uniqueConstraints = {
         @UniqueConstraint(columnNames = "role_id"),
         @UniqueConstraint(columnNames = "role_name")})
 public class Role implements IRole {
@@ -18,11 +18,8 @@ public class Role implements IRole {
     @Column(name = "role_name", unique = true, nullable = false, length = 25)
     private String roleName;
 
-    @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = {@JoinColumn(name = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    Set<User> users;
+    @ManyToMany(mappedBy = "userRoles")
+    private Set<User> users;
 
     public Role(){
     }
