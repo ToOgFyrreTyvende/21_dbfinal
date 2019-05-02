@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "User", uniqueConstraints = {
+@Table(name = "Users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "user_id")})
 public class User implements IUser {
     @Id
@@ -26,11 +26,11 @@ public class User implements IUser {
     @Column(name = "user_password", unique = false, nullable = false, length = 50)
     private String password;
 
-    @ManyToMany(targetEntity = Role.class)
-    @JoinTable(name = "user_role",
+    @ManyToMany
+    @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles;
+    private Set<Role> userRoles;
 
     @ManyToMany
     @JoinTable(name = "users_products",
@@ -100,12 +100,12 @@ public class User implements IUser {
         this.password = password;
     }
 
-    public Set<Role> getRoles(){
-        return roles;
+    public Set<Role> getUserRoles(){
+        return userRoles;
     }
 
-    public void setRoles(Set<Role> roles){
-        this.roles = roles;
+    public void setUserRoles(Set<Role> userRoles){
+        this.userRoles = userRoles;
     }
 
     public Set<Product> getProducts(){
@@ -115,15 +115,15 @@ public class User implements IUser {
     public void setProducts(Set<Product> products){
         this.products = products;
     }
-    // public List<String> getRoles() {
-    //     return roles;
+    // public List<String> getUserRoles() {
+    //     return userRoles;
     // }
-    // public void setRoles(List<String> roles) {
-    //     this.roles = roles;
+    // public void setUserRoles(List<String> userRoles) {
+    //     this.userRoles = userRoles;
     // }
     //
     // public void addRole(String role){
-    //     this.roles.add(role);
+    //     this.userRoles.add(role);
     // }
     // /**
     //  *
@@ -131,7 +131,7 @@ public class User implements IUser {
     //  * @return true if role existed, false if not
     //  */
     // public boolean removeRole(String role){
-    //     return this.roles.remove(role);
+    //     return this.userRoles.remove(role);
     // }
 
     @Override
