@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "Product", uniqueConstraints = {
+@Table(name = "Products", uniqueConstraints = {
         @UniqueConstraint(columnNames = "product_id")})
 public class Product implements IProduct {
     @Id
@@ -20,10 +20,7 @@ public class Product implements IProduct {
     @JoinColumn(name = "product_recipe_id")
     private Recipe productRecipe;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "product_batches",
-            joinColumns = {@JoinColumn(name = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_batch_id")})
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<ProductBatch> prodBatch;
 
     public Product(){
