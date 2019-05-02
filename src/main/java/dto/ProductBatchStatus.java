@@ -6,6 +6,8 @@ import org.hibernate.annotations.Target;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Product_Batch_Status", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "product_batch_status_id")})
 public class ProductBatchStatus implements IProductBatchStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
