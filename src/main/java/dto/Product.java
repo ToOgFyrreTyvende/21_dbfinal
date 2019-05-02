@@ -15,6 +15,9 @@ public class Product implements IProduct {
     @Column(name = "product_id", unique = true, nullable = false)
     private int prodId;
 
+    @ManyToMany(mappedBy = "userProducts")
+    private Set<User> users;
+
     @OneToOne(cascade = CascadeType.ALL)
     @Target(Recipe.class)
     @JoinColumn(name = "product_recipe_id")

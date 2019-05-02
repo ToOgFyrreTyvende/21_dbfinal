@@ -33,10 +33,10 @@ public class User implements IUser {
     private Set<Role> userRoles;
 
     @ManyToMany
-    @JoinTable(name = "users_products",
+    @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Set<Product> products;
+    private Set<Product> userProducts;
     //TODO Add relevant fields
 
     public User(){
@@ -108,12 +108,12 @@ public class User implements IUser {
         this.userRoles = userRoles;
     }
 
-    public Set<Product> getProducts(){
-        return products;
+    public Set<Product> getUserProducts(){
+        return userProducts;
     }
 
-    public void setProducts(Set<Product> products){
-        this.products = products;
+    public void setUserProducts(Set<Product> userProducts){
+        this.userProducts = userProducts;
     }
     // public List<String> getUserRoles() {
     //     return userRoles;
