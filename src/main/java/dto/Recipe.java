@@ -1,7 +1,9 @@
 package dto;
 
+import dto.interfaces.IIngredient;
+import dto.interfaces.IProduct;
 import dto.interfaces.IRecipe;
-import org.hibernate.annotations.Target;
+import dto.interfaces.IRecipeHistory;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,19 +17,19 @@ public class Recipe implements IRecipe {
     @Column(name = "recipe_id", unique = true, nullable = false)
     private int recipeId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Target(Product.class)
-    @JoinColumn(name = "recipe_product_id")
-    private Product recipeProduct;
+    @OneToOne(mappedBy = "productRecipe",
+            targetEntity = Product.class)
+    private IProduct recipeProduct;
 
-    @OneToMany(mappedBy = "recipeHistoryRecipe", cascade = CascadeType.ALL)
-    private Set<RecipeHistory> recipeHistory;
+    @OneToMany(mappedBy = "recipeHistoryRecipe", cascade = CascadeType.ALL,
+            targetEntity = RecipeHistory.class)
+    private Set<IRecipeHistory> recipeHistory;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Ingredient.class)
     @JoinTable(name = "Recipes_Ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
-    private Set<Ingredient> recipeIngredients;
+    private Set<IIngredient> recipeIngredients;
 
     public Recipe(){
     }
@@ -42,27 +44,33 @@ public class Recipe implements IRecipe {
         this.recipeId = recipeId;
     }
 
-    public Product getRecipeProduct(){
+    @Override
+    public IProduct getRecipeProduct(){
         return recipeProduct;
     }
 
-    public void setRecipeProduct(Product recipeProduct){
+    @Override
+    public void setRecipeProduct(IProduct recipeProduct){
         this.recipeProduct = recipeProduct;
     }
 
-    public Set<RecipeHistory> getRecipeHistory(){
+    @Override
+    public Set<IRecipeHistory> getRecipeHistory(){
         return recipeHistory;
     }
 
-    public void setRecipeHistory(Set<RecipeHistory> recipeHistory){
+    @Override
+    public void setRecipeHistory(Set<IRecipeHistory> recipeHistory){
         this.recipeHistory = recipeHistory;
     }
 
-    public Set<Ingredient> getRecipeIngredients(){
+    @Override
+    public Set<IIngredient> getRecipeIngredients(){
         return recipeIngredients;
     }
 
-    public void setRecipeIngredients(Set<Ingredient> recipeIngredients){
+    @Override
+    public void setRecipeIngredients(Set<IIngredient> recipeIngredients){
         this.recipeIngredients = recipeIngredients;
     }
 }

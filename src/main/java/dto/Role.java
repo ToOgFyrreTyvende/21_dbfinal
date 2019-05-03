@@ -1,6 +1,8 @@
 package dto;
 
 import dto.interfaces.IRole;
+import dto.interfaces.IUser;
+import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,8 +20,10 @@ public class Role implements IRole {
     @Column(name = "role_name", unique = true, nullable = false, length = 25)
     private String roleName;
 
-    @ManyToMany(mappedBy = "userRoles")
-    private Set<User> users;
+    // @Target(User.class)
+    @ManyToMany(mappedBy = "userRoles",
+            targetEntity = User.class)
+    private Set<IUser> users;
 
     public Role(){
     }
@@ -34,19 +38,23 @@ public class Role implements IRole {
         this.roleId = roleId;
     }
 
+    @Override
     public String getRoleName(){
         return roleName;
     }
 
+    @Override
     public void setRoleName(String roleName){
         this.roleName = roleName;
     }
 
-    public Set<User> getUsers(){
+    @Override
+    public Set<IUser> getUsers(){
         return users;
     }
 
-    public void setUsers(Set<User> users){
+    @Override
+    public void setUsers(Set<IUser> users){
         this.users = users;
     }
 }

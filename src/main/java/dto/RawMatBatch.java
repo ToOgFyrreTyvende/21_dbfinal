@@ -1,6 +1,9 @@
 package dto;
 
+import dto.interfaces.IIngredient;
+import dto.interfaces.IProductBatch;
 import dto.interfaces.IRawMatBatch;
+import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,27 +17,24 @@ public class RawMatBatch implements IRawMatBatch {
     @Column(name = "supplier_batch_id", unique = true, nullable = false)
     private int batchId;
 
-    @Column(name = "manufacturer_name",
-            unique = false, nullable = false, length = 80)
+    @Column(name = "manufacturer_name", nullable = false, length = 80)
     private String manufacturerName;
 
-    @Column(name = "amount",
-            unique = false, nullable = false, length = 255)
+    @Column(name = "amount", nullable = false)
     private double amount;
 
-    @Column(name = "residual",
-            unique = false, nullable = true, length = 255)
+    @Column(name = "residual")
     private boolean residual;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = ProductBatch.class)
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "supplier_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_batch_id")})
-    private Set<ProductBatch> rawMatProductBatches;
+    private Set<IProductBatch> rawMatProductBatches;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Ingredient.class)
     @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredients;
+    private IIngredient ingredients;
 
     public RawMatBatch(){
     }
@@ -79,19 +79,23 @@ public class RawMatBatch implements IRawMatBatch {
         this.residual = residual;
     }
 
-    public Set<ProductBatch> getRawMatProductBatches(){
+    @Override
+    public Set<IProductBatch> getRawMatProductBatches(){
         return rawMatProductBatches;
     }
 
-    public void setRawMatProductBatches(Set<ProductBatch> rawMatProductBatches){
+    @Override
+    public void setRawMatProductBatches(Set<IProductBatch> rawMatProductBatches){
         this.rawMatProductBatches = rawMatProductBatches;
     }
 
-    public Ingredient getIngredients(){
+    @Override
+    public IIngredient getIngredients(){
         return ingredients;
     }
 
-    public void setIngredients(Ingredient ingredients){
+    @Override
+    public void setIngredients(IIngredient ingredients){
         this.ingredients = ingredients;
     }
 }

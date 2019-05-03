@@ -1,6 +1,8 @@
 package dto;
 
+import dto.interfaces.IRecipe;
 import dto.interfaces.IRecipeHistory;
+import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 
@@ -13,9 +15,10 @@ public class RecipeHistory implements IRecipeHistory {
     @Column(name = "recipe_history_id", unique = true, nullable = false)
     private int recipeHistId;
 
-    @ManyToOne
+    // @Target(Recipe.class)
+    @ManyToOne(targetEntity = Recipe.class)
     @JoinColumn(name = "recipe_id")
-    private Recipe recipeHistoryRecipe;
+    private IRecipe recipeHistoryRecipe;
 
     public RecipeHistory(){
     }
@@ -30,11 +33,13 @@ public class RecipeHistory implements IRecipeHistory {
         this.recipeHistId = recipeHistId;
     }
 
-    public Recipe getRecipeHistoryRecipe(){
+    @Override
+    public IRecipe getRecipeHistoryRecipe(){
         return recipeHistoryRecipe;
     }
 
-    public void setRecipeHistoryRecipe(Recipe recipeHistoryRecipe){
+    @Override
+    public void setRecipeHistoryRecipe(IRecipe recipeHistoryRecipe){
         this.recipeHistoryRecipe = recipeHistoryRecipe;
     }
 }

@@ -1,5 +1,7 @@
 package dto;
 
+import dto.interfaces.IProduct;
+import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 
 import javax.persistence.*;
@@ -17,26 +19,26 @@ public class User implements IUser {
     @Column(name = "user_name", unique = true, nullable = false, length = 45)
     private String userName;
 
-    @Column(name = "initials", unique = false, nullable = false, length = 4)
+    @Column(name = "initials", nullable = false, length = 4)
     private String ini;
 
     @Column(name = "user_cpr", unique = true, nullable = false, length = 11)
     private String cpr;
 
-    @Column(name = "user_password", unique = false, nullable = false, length = 50)
+    @Column(name = "user_password", nullable = false, length = 50)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> userRoles;
+    private Set<IRole> userRoles;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Product.class)
     @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Set<Product> userProducts;
+    private Set<IProduct> userProducts;
     //TODO Add relevant fields
 
     public User(){
@@ -100,19 +102,23 @@ public class User implements IUser {
         this.password = password;
     }
 
-    public Set<Role> getUserRoles(){
+    @Override
+    public Set<IRole> getUserRoles(){
         return userRoles;
     }
 
-    public void setUserRoles(Set<Role> userRoles){
+    @Override
+    public void setUserRoles(Set<IRole> userRoles){
         this.userRoles = userRoles;
     }
 
-    public Set<Product> getUserProducts(){
+    @Override
+    public Set<IProduct> getUserProducts(){
         return userProducts;
     }
 
-    public void setUserProducts(Set<Product> userProducts){
+    @Override
+    public void setUserProducts(Set<IProduct> userProducts){
         this.userProducts = userProducts;
     }
     // public List<String> getUserRoles() {

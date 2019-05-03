@@ -1,7 +1,9 @@
 package dto;
 
 import dto.interfaces.IProduct;
-import org.hibernate.annotations.Target;
+import dto.interfaces.IProductBatch;
+import dto.interfaces.IRecipe;
+import dto.interfaces.IUser;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,16 +17,18 @@ public class Product implements IProduct {
     @Column(name = "product_id", unique = true, nullable = false)
     private int prodId;
 
-    @ManyToMany(mappedBy = "userProducts")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "userProducts",
+            targetEntity = User.class)
+    private Set<IUser> users;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Target(Recipe.class)
-    @JoinColumn(name = "product_recipe_id")
-    private Recipe productRecipe;
+    @OneToOne(cascade = CascadeType.ALL,
+            targetEntity = Recipe.class)
+    @JoinColumn(name = "product_recipe_id", unique = true)
+    private IRecipe productRecipe;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductBatch> prodBatch;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,
+            targetEntity = ProductBatch.class)
+    private Set<IProductBatch> prodBatch;
 
     public Product(){
     }
@@ -39,19 +43,33 @@ public class Product implements IProduct {
         this.prodId = prodId;
     }
 
-    public Recipe getProductRecipe(){
+    @Override
+    public Set<IUser> getUsers(){
+        return users;
+    }
+
+    @Override
+    public void setUsers(Set<IUser> users){
+        this.users = users;
+    }
+
+    @Override
+    public IRecipe getProductRecipe(){
         return productRecipe;
     }
 
-    public void setProductRecipe(Recipe productRecipe){
+    @Override
+    public void setProductRecipe(IRecipe productRecipe){
         this.productRecipe = productRecipe;
     }
 
-    public Set<ProductBatch> getProdBatch(){
+    @Override
+    public Set<IProductBatch> getProdBatch(){
         return prodBatch;
     }
 
-    public void setProdBatch(Set<ProductBatch> prodBatch){
+    @Override
+    public void setProdBatch(Set<IProductBatch> prodBatch){
         this.prodBatch = prodBatch;
     }
 }

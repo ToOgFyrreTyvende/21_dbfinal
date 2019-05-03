@@ -1,7 +1,9 @@
 package dto;
 
+import dto.interfaces.IProduct;
 import dto.interfaces.IProductBatch;
-import org.hibernate.annotations.Target;
+import dto.interfaces.IProductBatchStatus;
+import dto.interfaces.IRawMatBatch;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,20 +17,20 @@ public class ProductBatch implements IProductBatch {
     @Column(name = "product_batch_id", unique = true, nullable = false)
     private int prodBatchId;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Product.class)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private IProduct product;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Target(ProductBatchStatus.class)
-    @JoinColumn(name = "batch_status_id")
-    private ProductBatchStatus batchStatus;
+    @OneToOne(cascade = CascadeType.ALL,
+            targetEntity = ProductBatchStatus.class)
+    @JoinColumn(name = "batch_status_id", unique = true)
+    private IProductBatchStatus batchStatus;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = RawMatBatch.class)
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "product_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "supplier_batch_id")})
-    private Set<RawMatBatch> rawMatBatches;
+    private Set<IRawMatBatch> rawMatBatches;
 
     public ProductBatch(){
     }
@@ -43,27 +45,33 @@ public class ProductBatch implements IProductBatch {
         this.prodBatchId = prodBatchId;
     }
 
-    public Product getProduct(){
+    @Override
+    public IProduct getProduct(){
         return product;
     }
 
-    public void setProduct(Product product){
+    @Override
+    public void setProduct(IProduct product){
         this.product = product;
     }
 
-    public ProductBatchStatus getBatchStatus(){
+    @Override
+    public IProductBatchStatus getBatchStatus(){
         return batchStatus;
     }
 
-    public void setBatchStatus(ProductBatchStatus batchStatus){
+    @Override
+    public void setBatchStatus(IProductBatchStatus batchStatus){
         this.batchStatus = batchStatus;
     }
 
-    public Set<RawMatBatch> getRawMatBatches(){
+    @Override
+    public Set<IRawMatBatch> getRawMatBatches(){
         return rawMatBatches;
     }
 
-    public void setRawMatBatches(Set<RawMatBatch> rawMatBatches){
+    @Override
+    public void setRawMatBatches(Set<IRawMatBatch> rawMatBatches){
         this.rawMatBatches = rawMatBatches;
     }
 }

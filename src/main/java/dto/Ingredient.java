@@ -1,6 +1,8 @@
 package dto;
 
 import dto.interfaces.IIngredient;
+import dto.interfaces.IRawMatBatch;
+import dto.interfaces.IRecipe;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,14 +16,16 @@ public class Ingredient implements IIngredient {
     @Column(name = "ingredient_id", unique = true, nullable = false)
     private int ingredientId;
 
-    @Column(name = "active", unique = false, nullable = false)
+    @Column(name = "active", nullable = false)
     private boolean active;
 
-    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
-    private Set<RawMatBatch> recipeRawMatBatch;
+    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL,
+            targetEntity = RawMatBatch.class)
+    private Set<IRawMatBatch> recipeRawMatBatch;
 
-    @ManyToMany(mappedBy = "recipeIngredients")
-    private Set<Recipe> recipes;
+    @ManyToMany(mappedBy = "recipeIngredients",
+            targetEntity = Recipe.class)
+    private Set<IRecipe> recipes;
 
     public Ingredient(){
     }
@@ -46,19 +50,23 @@ public class Ingredient implements IIngredient {
         this.active = active;
     }
 
-    public Set<RawMatBatch> getRecipeRawMatBatch(){
+    @Override
+    public Set<IRawMatBatch> getRecipeRawMatBatch(){
         return recipeRawMatBatch;
     }
 
-    public void setRecipeRawMatBatch(Set<RawMatBatch> recipeRawMatBatch){
+    @Override
+    public void setRecipeRawMatBatch(Set<IRawMatBatch> recipeRawMatBatch){
         this.recipeRawMatBatch = recipeRawMatBatch;
     }
 
-    public Set<Recipe> getRecipes(){
+    @Override
+    public Set<IRecipe> getRecipes(){
         return recipes;
     }
 
-    public void setRecipes(Set<Recipe> recipes){
+    @Override
+    public void setRecipes(Set<IRecipe> recipes){
         this.recipes = recipes;
     }
 }

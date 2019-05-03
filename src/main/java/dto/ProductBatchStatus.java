@@ -1,5 +1,6 @@
 package dto;
 
+import dto.interfaces.IProductBatch;
 import dto.interfaces.IProductBatchStatus;
 import org.hibernate.annotations.Target;
 
@@ -14,10 +15,10 @@ public class ProductBatchStatus implements IProductBatchStatus {
     @Column(name = "product_batch_status_id")
     private int prodBatchStatusId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Target(ProductBatch.class)
-    @JoinColumn(name = "product_batch_id")
-    private ProductBatch productBatch;
+    // @JoinColumn(name = "product_batch_id", unique = true)
+    @OneToOne(mappedBy = "batchStatus",
+            targetEntity = ProductBatch.class)
+    private IProductBatch productBatch;
 
     public ProductBatchStatus(){
     }
@@ -32,11 +33,13 @@ public class ProductBatchStatus implements IProductBatchStatus {
         this.prodBatchStatusId = prodBatchStatusId;
     }
 
-    public ProductBatch getProductBatch(){
+    @Override
+    public IProductBatch getProductBatch(){
         return productBatch;
     }
 
-    public void setProductBatch(ProductBatch productBatch){
+    @Override
+    public void setProductBatch(IProductBatch productBatch){
         this.productBatch = productBatch;
     }
 }
