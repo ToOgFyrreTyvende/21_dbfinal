@@ -2,7 +2,6 @@ package dto;
 
 import dto.interfaces.IProductBatch;
 import dto.interfaces.IProductBatchStatus;
-import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 
@@ -15,7 +14,6 @@ public class ProductBatchStatus implements IProductBatchStatus {
     @Column(name = "product_batch_status_id")
     private int prodBatchStatusId;
 
-    // @JoinColumn(name = "product_batch_id", unique = true)
     @OneToOne(mappedBy = "batchStatus",
             targetEntity = ProductBatch.class)
     private IProductBatch productBatch;

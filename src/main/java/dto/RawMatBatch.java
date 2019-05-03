@@ -3,7 +3,6 @@ package dto;
 import dto.interfaces.IIngredient;
 import dto.interfaces.IProductBatch;
 import dto.interfaces.IRawMatBatch;
-import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 import java.util.Set;

@@ -2,7 +2,6 @@ package dto;
 
 import dto.interfaces.IRecipe;
 import dto.interfaces.IRecipeHistory;
-import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 
@@ -15,7 +14,6 @@ public class RecipeHistory implements IRecipeHistory {
     @Column(name = "recipe_history_id", unique = true, nullable = false)
     private int recipeHistId;
 
-    // @Target(Recipe.class)
     @ManyToOne(targetEntity = Recipe.class)
     @JoinColumn(name = "recipe_id")
     private IRecipe recipeHistoryRecipe;
