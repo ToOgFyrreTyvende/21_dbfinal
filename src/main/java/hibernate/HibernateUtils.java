@@ -7,12 +7,12 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.Properties;
 
-public class DatabaseTableCreator {
+public class HibernateUtils {
+    private static Properties prop;
     private static SessionFactory factory;
-
-    public static void main(String[] args){
+    static {
         // Configure Hibernate
-        Properties prop = new Properties();
+        prop = new Properties();
         prop.setProperty("hibernate.connection.url", "jdbc:mysql://" + System.getenv("DB_URL") + "/21_dbfinal");
         prop.setProperty("dialect", "org.hibernate.dialect.MySQL8Dialect");
         prop.setProperty("hibernate.connection.username", System.getenv("DB_USER"));
@@ -22,8 +22,7 @@ public class DatabaseTableCreator {
         prop.setProperty("hibernate.hbm2ddl.auto","update"); //Opdaterer eksisterende tabeller
         prop.setProperty("show_sql", "true"); //If you wish to see the generated sql query
 
-        // Make a Hibernate Session
-        SessionFactory sessionFactory = new Configuration()
+        factory = new Configuration()
                 .addProperties(prop)
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Role.class)
@@ -35,6 +34,17 @@ public class DatabaseTableCreator {
                 .addAnnotatedClass(Recipe.class)
                 .addAnnotatedClass(RecipeHistory.class)
                 .buildSessionFactory();
-        Session session = sessionFactory.openSession();
+    }
+
+    public static SessionFactory getSessionFactory(){
+        return factory;
+    }
+
+    public static void main(String[] args){
+
+
+        // Make a Hibernate Session
+        // SessionFactory sessionFactory = new Configuration();
+        // Session session = sessionFactory.openSession();
     }
 }
