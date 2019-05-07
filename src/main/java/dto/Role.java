@@ -21,7 +21,7 @@ public class Role implements IRole, Serializable {
     private String roleName;
 
     @ManyToMany(mappedBy = "userRoles",
-            targetEntity = User.class)
+            targetEntity = User.class, fetch = FetchType.LAZY)
     private Set<IUser> users;
 
     public Role(){
