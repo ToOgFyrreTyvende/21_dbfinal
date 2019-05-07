@@ -1,14 +1,18 @@
-package hibernate;
+package dal;
 
 import dto.*;
+import hibernate.HibernateUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class ManageUser {
+public class UserDAO {
     // CRUD operations on User
     public static void main(String[] args){
+        // Create dummy user
+        User user = new User(42, "Dråbelyd",
+                "DUI", "420360-1337", "dummyBoi");
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
         Session session = sessionFactory.openSession();
     }
