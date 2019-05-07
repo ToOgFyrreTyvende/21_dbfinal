@@ -5,12 +5,13 @@ import dto.interfaces.IProductBatch;
 import dto.interfaces.IRawMatBatch;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "Raw_Mat_Batches", uniqueConstraints = {
         @UniqueConstraint(columnNames = "supplier_batch_id")})
-public class RawMatBatch implements IRawMatBatch {
+public class RawMatBatch implements IRawMatBatch, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplier_batch_id", unique = true, nullable = false)

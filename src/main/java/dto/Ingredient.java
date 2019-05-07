@@ -5,12 +5,13 @@ import dto.interfaces.IRawMatBatch;
 import dto.interfaces.IRecipe;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "Ingredients", uniqueConstraints = {
         @UniqueConstraint(columnNames = "ingredient_id")})
-public class Ingredient implements IIngredient {
+public class Ingredient implements IIngredient, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_id", unique = true, nullable = false)

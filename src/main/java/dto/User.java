@@ -5,12 +5,13 @@ import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "Users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "user_id")})
-public class User implements IUser {
+public class User implements IUser, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, nullable = false)

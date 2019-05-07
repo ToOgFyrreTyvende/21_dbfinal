@@ -4,11 +4,12 @@ import dto.interfaces.IProductBatch;
 import dto.interfaces.IProductBatchStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Product_Batch_Status", uniqueConstraints = {
         @UniqueConstraint(columnNames = "product_batch_status_id")})
-public class ProductBatchStatus implements IProductBatchStatus {
+public class ProductBatchStatus implements IProductBatchStatus, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_batch_status_id")

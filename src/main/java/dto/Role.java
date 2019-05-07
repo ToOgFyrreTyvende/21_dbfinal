@@ -4,13 +4,14 @@ import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "Roles", uniqueConstraints = {
         @UniqueConstraint(columnNames = "role_id"),
         @UniqueConstraint(columnNames = "role_name")})
-public class Role implements IRole {
+public class Role implements IRole, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", unique = true, nullable = false)

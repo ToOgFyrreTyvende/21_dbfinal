@@ -6,12 +6,13 @@ import dto.interfaces.IRecipe;
 import dto.interfaces.IUser;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "Products", uniqueConstraints = {
         @UniqueConstraint(columnNames = "product_id")})
-public class Product implements IProduct {
+public class Product implements IProduct, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", unique = true, nullable = false)

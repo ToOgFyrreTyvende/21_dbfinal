@@ -6,12 +6,13 @@ import dto.interfaces.IRecipe;
 import dto.interfaces.IRecipeHistory;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "Recipes", uniqueConstraints = {
         @UniqueConstraint(columnNames = "recipe_id")})
-public class Recipe implements IRecipe {
+public class Recipe implements IRecipe, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id", unique = true, nullable = false)
