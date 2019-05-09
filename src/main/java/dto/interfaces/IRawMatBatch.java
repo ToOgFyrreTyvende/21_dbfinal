@@ -1,6 +1,6 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IRawMatBatch {
     int getBatchId();
@@ -11,8 +11,8 @@ public interface IRawMatBatch {
     void setAmount(double amount);
     boolean isResidual();
     void setResidual(boolean residual);
-    Set<IProductBatch> getRawMatProductBatches();
-    void setRawMatProductBatches(Set<IProductBatch> rawMatProductBatches);
+    List<IProductBatch> getRawMatProductBatches();
+    void setRawMatProductBatches(List<IProductBatch> rawMatProductBatches);
     IIngredient getIngredients();
     void setIngredients(IIngredient ingredients);
 }

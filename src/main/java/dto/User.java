@@ -6,7 +6,8 @@ import dto.interfaces.IUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Users", uniqueConstraints = {
@@ -33,16 +34,18 @@ public class User implements IUser, Serializable {
     @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<IRole> userRoles;
+    private List<IRole> userRoles;
 
     @ManyToMany(targetEntity = Product.class)
     @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Set<IProduct> userProducts;
+    private List<IProduct> userProducts;
     //TODO Add relevant fields
 
     public User(){
+        this.userRoles = new ArrayList<>();
+        this.userProducts = new ArrayList<>();
     }
 
     public User(int _userId, String _username, String _ini, String _cpr, String _password){
@@ -51,6 +54,8 @@ public class User implements IUser, Serializable {
         this.ini = _ini;
         this.cpr = _cpr;
         this.password = _password;
+        this.userRoles = new ArrayList<>();
+        this.userProducts = new ArrayList<>();
     }
 
     @Override
@@ -104,22 +109,22 @@ public class User implements IUser, Serializable {
     }
 
     @Override
-    public Set<IRole> getUserRoles(){
+    public List<IRole> getUserRoles(){
         return userRoles;
     }
 
     @Override
-    public void setUserRoles(Set<IRole> userRoles){
+    public void setUserRoles(List<IRole> userRoles){
         this.userRoles = userRoles;
     }
 
     @Override
-    public Set<IProduct> getUserProducts(){
+    public List<IProduct> getUserProducts(){
         return userProducts;
     }
 
     @Override
-    public void setUserProducts(Set<IProduct> userProducts){
+    public void setUserProducts(List<IProduct> userProducts){
         this.userProducts = userProducts;
     }
     // public List<String> getUserRoles() {

@@ -7,7 +7,8 @@ import dto.interfaces.IRecipeHistory;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Recipes", uniqueConstraints = {
@@ -24,15 +25,17 @@ public class Recipe implements IRecipe, Serializable {
 
     @OneToMany(mappedBy = "recipeHistoryRecipe", cascade = CascadeType.ALL,
             targetEntity = RecipeHistory.class)
-    private Set<IRecipeHistory> recipeHistory;
+    private List<IRecipeHistory> recipeHistory;
 
     @ManyToMany(targetEntity = Ingredient.class)
     @JoinTable(name = "Recipes_Ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
-    private Set<IIngredient> recipeIngredients;
+    private List<IIngredient> recipeIngredients;
 
     public Recipe(){
+        this.recipeHistory = new ArrayList<>();
+        this.recipeIngredients = new ArrayList<>();
     }
 
     @Override
@@ -56,22 +59,22 @@ public class Recipe implements IRecipe, Serializable {
     }
 
     @Override
-    public Set<IRecipeHistory> getRecipeHistory(){
+    public List<IRecipeHistory> getRecipeHistory(){
         return recipeHistory;
     }
 
     @Override
-    public void setRecipeHistory(Set<IRecipeHistory> recipeHistory){
+    public void setRecipeHistory(List<IRecipeHistory> recipeHistory){
         this.recipeHistory = recipeHistory;
     }
 
     @Override
-    public Set<IIngredient> getRecipeIngredients(){
+    public List<IIngredient> getRecipeIngredients(){
         return recipeIngredients;
     }
 
     @Override
-    public void setRecipeIngredients(Set<IIngredient> recipeIngredients){
+    public void setRecipeIngredients(List<IIngredient> recipeIngredients){
         this.recipeIngredients = recipeIngredients;
     }
 }

@@ -1,6 +1,6 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IUser {
     int getUserId();
@@ -13,8 +13,8 @@ public interface IUser {
     void setCpr(String cpr);
     String getPassword();
     void setPassword(String password);
-    Set<IRole> getUserRoles();
-    void setUserRoles(Set<IRole> userRoles);
-    Set<IProduct> getUserProducts();
-    void setUserProducts(Set<IProduct> userProducts);
+    List<IRole> getUserRoles();
+    void setUserRoles(List<IRole> userRoles);
+    List<IProduct> getUserProducts();
+    void setUserProducts(List<IProduct> userProducts);
 }

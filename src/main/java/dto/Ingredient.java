@@ -6,7 +6,8 @@ import dto.interfaces.IRecipe;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Ingredients", uniqueConstraints = {
@@ -17,18 +18,24 @@ public class Ingredient implements IIngredient, Serializable {
     @Column(name = "ingredient_id", unique = true, nullable = false)
     private int ingredientId;
 
+    @Column(name = "ingredient_name", unique = true, nullable = false)
+    private String ingredientName;
+
     @Column(name = "active", nullable = false)
     private boolean active;
 
     @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL,
             targetEntity = RawMatBatch.class)
-    private Set<IRawMatBatch> recipeRawMatBatch;
+    private List<IRawMatBatch> recipeRawMatBatch;
 
     @ManyToMany(mappedBy = "recipeIngredients",
             targetEntity = Recipe.class)
-    private Set<IRecipe> recipes;
+    private List<IRecipe> recipes;
 
     public Ingredient(){
+        this.active = false;
+        this.recipeRawMatBatch = new ArrayList<>();
+        this.recipes = new ArrayList<>();
     }
 
     @Override
@@ -42,6 +49,16 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
+    public String getIngredientName(){
+        return ingredientName;
+    }
+
+    @Override
+    public void setIngredientName(String ingredientName){
+        this.ingredientName = ingredientName;
+    }
+
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -52,22 +69,22 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
-    public Set<IRawMatBatch> getRecipeRawMatBatch(){
+    public List<IRawMatBatch> getRecipeRawMatBatch(){
         return recipeRawMatBatch;
     }
 
     @Override
-    public void setRecipeRawMatBatch(Set<IRawMatBatch> recipeRawMatBatch){
+    public void setRecipeRawMatBatch(List<IRawMatBatch> recipeRawMatBatch){
         this.recipeRawMatBatch = recipeRawMatBatch;
     }
 
     @Override
-    public Set<IRecipe> getRecipes(){
+    public List<IRecipe> getRecipes(){
         return recipes;
     }
 
     @Override
-    public void setRecipes(Set<IRecipe> recipes){
+    public void setRecipes(List<IRecipe> recipes){
         this.recipes = recipes;
     }
 }

@@ -1,14 +1,16 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IProduct {
     int getProdId();
     void setProdId(int prodId);
-    Set<IUser> getUsers();
-    void setUsers(Set<IUser> users);
+    String getProductName();
+    void setProductName(String productName);
+    List<IUser> getUsers();
+    void setUsers(List<IUser> users);
     IRecipe getProductRecipe();
     void setProductRecipe(IRecipe productRecipe);
-    Set<IProductBatch> getProdBatch();
-    void setProdBatch(Set<IProductBatch> prodBatch);
+    List<IProductBatch> getProdBatch();
+    void setProdBatch(List<IProductBatch> prodBatch);
 }

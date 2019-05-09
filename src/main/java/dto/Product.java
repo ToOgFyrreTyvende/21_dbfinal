@@ -7,7 +7,8 @@ import dto.interfaces.IUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Products", uniqueConstraints = {
@@ -18,9 +19,12 @@ public class Product implements IProduct, Serializable {
     @Column(name = "product_id", unique = true, nullable = false)
     private int prodId;
 
+    @Column(name = "product_name")
+    private String productName;
+
     @ManyToMany(mappedBy = "userProducts",
             targetEntity = User.class)
-    private Set<IUser> users;
+    private List<IUser> users;
 
     @OneToOne(cascade = CascadeType.ALL,
             targetEntity = Recipe.class)
@@ -29,9 +33,11 @@ public class Product implements IProduct, Serializable {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,
             targetEntity = ProductBatch.class)
-    private Set<IProductBatch> prodBatch;
+    private List<IProductBatch> prodBatch;
 
     public Product(){
+        this.users = new ArrayList<>();
+        this.prodBatch = new ArrayList<>();
     }
 
     @Override
@@ -45,12 +51,22 @@ public class Product implements IProduct, Serializable {
     }
 
     @Override
-    public Set<IUser> getUsers(){
+    public String getProductName(){
+        return productName;
+    }
+
+    @Override
+    public void setProductName(String productName){
+        this.productName = productName;
+    }
+
+    @Override
+    public List<IUser> getUsers(){
         return users;
     }
 
     @Override
-    public void setUsers(Set<IUser> users){
+    public void setUsers(List<IUser> users){
         this.users = users;
     }
 
@@ -65,12 +81,12 @@ public class Product implements IProduct, Serializable {
     }
 
     @Override
-    public Set<IProductBatch> getProdBatch(){
+    public List<IProductBatch> getProdBatch(){
         return prodBatch;
     }
 
     @Override
-    public void setProdBatch(Set<IProductBatch> prodBatch){
+    public void setProdBatch(List<IProductBatch> prodBatch){
         this.prodBatch = prodBatch;
     }
 }

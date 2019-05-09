@@ -1,14 +1,16 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IIngredient {
     int getIngredientId();
     void setIngredientId(int ingredientId);
+    String getIngredientName();
+    void setIngredientName(String ingredientName);
     boolean isActive();
     void setActive(boolean active);
-    Set<IRawMatBatch> getRecipeRawMatBatch();
-    void setRecipeRawMatBatch(Set<IRawMatBatch> recipeRawMatBatch);
-    Set<IRecipe> getRecipes();
-    void setRecipes(Set<IRecipe> recipes);
+    List<IRawMatBatch> getRecipeRawMatBatch();
+    void setRecipeRawMatBatch(List<IRawMatBatch> recipeRawMatBatch);
+    List<IRecipe> getRecipes();
+    void setRecipes(List<IRecipe> recipes);
 }

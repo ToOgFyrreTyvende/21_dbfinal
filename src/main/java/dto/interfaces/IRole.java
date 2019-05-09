@@ -1,6 +1,6 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IRole {
 
@@ -8,6 +8,6 @@ public interface IRole {
     void setRoleId(int roleId);
     String getRoleName();
     void setRoleName(String roleName);
-    Set<IUser> getUsers();
-    void setUsers(Set<IUser> users);
+    List<IUser> getUsers();
+    void setUsers(List<IUser> users);
 }
