@@ -1,19 +1,15 @@
 package dal;
 
 import dto.*;
-import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 import hibernate.HibernateUtils;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAO {
     // CRUD operations on User
+    // TODO: (Method that checks if a user is in the database?)
+    //  + deleteUser method
     public void createUser(IUser user){
         if (!isValidUser(user)){
             return;
@@ -26,6 +22,34 @@ public class UserDAO {
         User checkUser = session.get(User.class, user.getUserId());
         System.out.println("Saved user \"" + checkUser.getUserName() + "\" to database.");
         session.close();
+    }
+
+    public IUser getUser(int userId){
+        SessionFactory factory = HibernateUtils.getSessionFactory();
+        Session session = factory.openSession();
+        session.beginTransaction();
+        IUser user = session.get(User.class, userId);
+        session.getTransaction().commit();
+        session.close();
+        System.out.println("User found:\n" + user);
+        return user;
+    }
+
+    public void updateUser(IUser user){
+        if (!isValidUser(user)){
+            return;
+        }
+        SessionFactory factory = HibernateUtils.getSessionFactory();
+        Session session = factory.openSession();
+        session.beginTransaction();
+        session.update(user);
+        session.getTransaction().commit();
+        session.close();
+        System.out.println("Updated user:\n" + user);
+    }
+
+    public void deleteUser(IUser user){
+        // TODO: This method
     }
 
     private boolean isValidUser(IUser user){
