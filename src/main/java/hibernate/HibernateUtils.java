@@ -102,7 +102,7 @@ public class HibernateUtils {
         Session session1 = factory.openSession();
         session1.beginTransaction();
         for (IRole defaultRole : defaultRoles){
-            session1.saveOrUpdate(defaultRole);
+            session1.save(defaultRole);
             System.out.println("Inserted default role \""
                     + defaultRole.getRoleName() + "\" Successfully");
         }
@@ -120,7 +120,7 @@ public class HibernateUtils {
         Session session = factory.openSession();
         session.beginTransaction();
         for (IIngredient ingredient : defaultIngredients){
-            session.saveOrUpdate(ingredient);
+            session.save(ingredient);
             System.out.println("Inserted default ingredient \""
                     + ingredient.getIngredientName() + "\" Succesfully");
         }
