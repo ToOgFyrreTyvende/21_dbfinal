@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -133,50 +134,50 @@ public class HibernateUtils {
     }
 
     public static void main(String[] args){
+        System.out.println("\n----- Creating default roles -----");
         createDefaultRoles();
-        System.out.println();
+        System.out.println("\n----- Creating default ingredients -----");
         createDefaultIngredients();
-        // System.out.println();
-        // userTesting();
+        System.out.println("\n----- Beginning user testing -----");
+        userTesting();
     }
 
-    /*
+
     private static List<IUser> testUsers = new ArrayList<>();
     static {
         testUsers.add(new User(111, "testAdmin", "adm", "111111-1111", "root"));
         testUsers.add(new User(222, "testPLead", "pro", "222222-2222", "lead"));
         testUsers.add(new User(333, "testFarma", "farm", "333333-3333", "farm"));
         testUsers.add(new User(444, "testLaborant", "lab", "444444-4444", "lab"));
-        testUsers.add(new User(555, "testmulti", "lab", "555555-5555", "spec"));
+        testUsers.add(new User(555, "testmulti", "adv", "555555-5555", "spec"));
     }
     private static void userTesting(){
-        System.out.println("----- Beginning user testing -----");
         IUser testMulti = testUsers.get(4);
         System.out.println("init user:\n" + testMulti);
-        List<IRole> multiRoleList = new ArrayList<>();
+        Collection<IRole> multiRoleList = new ArrayList<>();
         // Start session
         Session getRoleSession = factory.openSession();
         // Session saveUserSession = factory.openSession();
         getRoleSession.beginTransaction();
         // Get roles from db
         System.out.println();
-        multiRoleList.add(getRoleSession.get(Role.class, 1));
-        System.out.println("Add " + multiRoleList.get(0).getRoleName() + " to multiRoleList");
-        multiRoleList.add(getRoleSession.get(Role.class, 4));
-        System.out.println("Add " + multiRoleList.get(1).getRoleName() + " to multiRoleList");
+        multiRoleList.add(defaultRoles.get(0));
+        System.out.println("Add " + defaultRoles.get(0).getRoleName() + " to multiRoleList");
+        multiRoleList.add(defaultRoles.get(1));
+        System.out.println("Add " + defaultRoles.get(1).getRoleName() + " to multiRoleList");
         // set Test users roles
-        testMulti.setUserRoles(multiRoleList);
-        System.out.println("multirole user has " + testMulti.getUserRoles().size() + " roles");
-        System.out.println();
+        testMulti.setUserRoles((ArrayList) multiRoleList);
+        System.out.println("multirole user has " + testMulti.getUserRoles().size() + " roles\n");
         // session save & commit
-        getRoleSession.saveOrUpdate(testUsers.get(4));
+        getRoleSession.save(testMulti);
         getRoleSession.getTransaction().commit();
         // Checking
         System.out.println("Done saving, now retrieving...");
-        IUser retreivedUser = getRoleSession.get(User.class, 1);
-        System.out.println("Retrieved user:\n" + retreivedUser);
-        System.out.println("Role 1: " + retreivedUser.getUserRoles().get(0) +
-                "\nRole 2: " + retreivedUser.getUserRoles().get(1));
+        IUser retrievedUser = getRoleSession.get(User.class, 1);
+        System.out.println("Retrieved user:\n" + retrievedUser);
+        // ArrayList<IRole> retrUsersRoles = (ArrayList<IRole>) retrievedUser.getUserRoles();
+        // System.out.println("Role 1: " + retrUsersRoles.get(0) +
+        //         "\nRole 2: " + retrUsersRoles.get(1));
         getRoleSession.close();
-    }*/
+    }
 }
