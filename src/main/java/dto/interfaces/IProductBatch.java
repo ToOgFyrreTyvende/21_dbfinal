@@ -1,6 +1,6 @@
 package dto.interfaces;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IProductBatch {
     int getProdBatchId();
@@ -9,6 +9,6 @@ public interface IProductBatch {
     void setProduct(IProduct product);
     IProductBatchStatus getBatchStatus();
     void setBatchStatus(IProductBatchStatus batchStatus);
-    List<IRawMatBatch> getRawMatBatches();
-    void setRawMatBatches(List<IRawMatBatch> rawMatBatches);
+    Set<IRawMatBatch> getRawMatBatches();
+    void setRawMatBatches(Set<IRawMatBatch> rawMatBatches);
 }

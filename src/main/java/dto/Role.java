@@ -6,7 +6,7 @@ import dto.interfaces.IUser;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Roles", uniqueConstraints = {
@@ -23,10 +23,9 @@ public class Role implements IRole, Serializable {
 
     @ManyToMany(mappedBy = "userRoles",
             targetEntity = User.class, fetch = FetchType.LAZY)
-    private List<IUser> users;
+    private Set<IUser> users;
 
     public Role(){
-        this.users = new ArrayList<>();
     }
 
     @Override
@@ -50,12 +49,12 @@ public class Role implements IRole, Serializable {
     }
 
     @Override
-    public List<IUser> getUsers(){
+    public Set<IUser> getUsers(){
         return users;
     }
 
     @Override
-    public void setUsers(List<IUser> users){
+    public void setUsers(Set<IUser> users){
         this.users = users;
     }
 }

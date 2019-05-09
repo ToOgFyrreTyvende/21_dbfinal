@@ -7,8 +7,7 @@ import dto.interfaces.IUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Products", uniqueConstraints = {
@@ -24,7 +23,7 @@ public class Product implements IProduct, Serializable {
 
     @ManyToMany(mappedBy = "userProducts",
             targetEntity = User.class)
-    private List<IUser> users;
+    private Set<IUser> users;
 
     @OneToOne(cascade = CascadeType.ALL,
             targetEntity = Recipe.class)
@@ -33,11 +32,9 @@ public class Product implements IProduct, Serializable {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,
             targetEntity = ProductBatch.class)
-    private List<IProductBatch> prodBatch;
+    private Set<IProductBatch> prodBatch;
 
     public Product(){
-        this.users = new ArrayList<>();
-        this.prodBatch = new ArrayList<>();
     }
 
     @Override
@@ -61,12 +58,12 @@ public class Product implements IProduct, Serializable {
     }
 
     @Override
-    public List<IUser> getUsers(){
+    public Set<IUser> getUsers(){
         return users;
     }
 
     @Override
-    public void setUsers(List<IUser> users){
+    public void setUsers(Set<IUser> users){
         this.users = users;
     }
 
@@ -81,12 +78,12 @@ public class Product implements IProduct, Serializable {
     }
 
     @Override
-    public List<IProductBatch> getProdBatch(){
+    public Set<IProductBatch> getProdBatch(){
         return prodBatch;
     }
 
     @Override
-    public void setProdBatch(List<IProductBatch> prodBatch){
+    public void setProdBatch(Set<IProductBatch> prodBatch){
         this.prodBatch = prodBatch;
     }
 }
