@@ -1,6 +1,7 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public interface IUser {
     int getUserId();
@@ -13,8 +14,8 @@ public interface IUser {
     void setCpr(String cpr);
     String getPassword();
     void setPassword(String password);
-    Set<IRole> getUserRoles();
-    void setUserRoles(Set<IRole> userRoles);
-    Set<IProduct> getUserProducts();
-    void setUserProducts(Set<IProduct> userProducts);
+    Collection getUserRoles();
+    void setUserRoles(ArrayList userRoles);
+    Collection getUserProducts();
+    void setUserProducts(ArrayList userProducts);
 }

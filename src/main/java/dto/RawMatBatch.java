@@ -6,6 +6,8 @@ import dto.interfaces.IRawMatBatch;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -30,7 +32,7 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "supplier_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_batch_id")})
-    private Set<IProductBatch> rawMatProductBatches;
+    private Collection rawMatProductBatches = new ArrayList();
 
     @ManyToOne(targetEntity = Ingredient.class)
     @JoinColumn(name = "ingredient_id")
@@ -80,12 +82,12 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     }
 
     @Override
-    public Set<IProductBatch> getRawMatProductBatches(){
+    public Collection getRawMatProductBatches(){
         return rawMatProductBatches;
     }
 
     @Override
-    public void setRawMatProductBatches(Set<IProductBatch> rawMatProductBatches){
+    public void setRawMatProductBatches(ArrayList rawMatProductBatches){
         this.rawMatProductBatches = rawMatProductBatches;
     }
 

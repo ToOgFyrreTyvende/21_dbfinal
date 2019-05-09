@@ -1,12 +1,11 @@
 package dto;
 
-import dto.interfaces.IProduct;
-import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "Users", uniqueConstraints = {
@@ -33,13 +32,13 @@ public class User implements IUser, Serializable {
     @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<IRole> userRoles;
+    private Collection userRoles = new ArrayList();
 
     @ManyToMany(targetEntity = Product.class)
     @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Set<IProduct> userProducts;
+    private Collection userProducts = new ArrayList();
     //TODO Add relevant fields
 
     public User(){
@@ -104,22 +103,22 @@ public class User implements IUser, Serializable {
     }
 
     @Override
-    public Set<IRole> getUserRoles(){
+    public Collection getUserRoles(){
         return userRoles;
     }
 
     @Override
-    public void setUserRoles(Set<IRole> userRoles){
+    public void setUserRoles(ArrayList userRoles){
         this.userRoles = userRoles;
     }
 
     @Override
-    public Set<IProduct> getUserProducts(){
+    public Collection getUserProducts(){
         return userProducts;
     }
 
     @Override
-    public void setUserProducts(Set<IProduct> userProducts){
+    public void setUserProducts(ArrayList userProducts){
         this.userProducts = userProducts;
     }
     // public List<String> getUserRoles() {

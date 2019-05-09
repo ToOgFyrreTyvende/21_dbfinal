@@ -1,6 +1,7 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public interface IIngredient {
     int getIngredientId();
@@ -9,8 +10,8 @@ public interface IIngredient {
     void setIngredientName(String ingredientName);
     boolean isActive();
     void setActive(boolean active);
-    Set<IRawMatBatch> getRecipeRawMatBatch();
-    void setRecipeRawMatBatch(Set<IRawMatBatch> recipeRawMatBatch);
-    Set<IRecipe> getRecipes();
-    void setRecipes(Set<IRecipe> recipes);
+    Collection getRecipeRawMatBatch();
+    void setRecipeRawMatBatch(ArrayList recipeRawMatBatch);
+    Collection getRecipes();
+    void setRecipes(ArrayList recipes);
 }

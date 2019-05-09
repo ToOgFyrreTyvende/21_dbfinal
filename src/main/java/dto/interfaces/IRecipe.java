@@ -1,6 +1,7 @@
 package dto.interfaces;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public interface IRecipe {
 
@@ -8,8 +9,8 @@ public interface IRecipe {
     void setRecipeId(int recipeId);
     IProduct getRecipeProduct();
     void setRecipeProduct(IProduct recipeProduct);
-    Set<IRecipeHistory> getRecipeHistory();
-    void setRecipeHistory(Set<IRecipeHistory> recipeHistory);
-    Set<IIngredient> getRecipeIngredients();
-    void setRecipeIngredients(Set<IIngredient> recipeIngredients);
+    Collection getRecipeHistory();
+    void setRecipeHistory(ArrayList recipeHistory);
+    Collection getRecipeIngredients();
+    void setRecipeIngredients(ArrayList recipeIngredients);
 }
