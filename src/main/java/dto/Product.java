@@ -2,6 +2,8 @@ package dto;
 
 import dto.interfaces.IProduct;
 import dto.interfaces.IRecipe;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,8 +22,9 @@ public class Product implements IProduct, Serializable {
     @Column(name = "product_name")
     private String productName;
 
-    @ManyToMany(mappedBy = "userProducts", cascade = CascadeType.ALL,
+    @ManyToMany(mappedBy = "userProducts",
             targetEntity = User.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List users = new ArrayList();
 
     @OneToOne(cascade = CascadeType.ALL,

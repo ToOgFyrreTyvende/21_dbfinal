@@ -1,6 +1,8 @@
 package dto;
 
 import dto.interfaces.IUser;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,13 +30,15 @@ public class User implements IUser, Serializable {
     @Column(name = "user_password", nullable = false, length = 50)
     private String password;
 
-    @ManyToMany(targetEntity = Role.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Role.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List userRoles = new ArrayList();
 
-    @ManyToMany(targetEntity = Product.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Product.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})

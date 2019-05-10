@@ -1,6 +1,8 @@
 package dto;
 
 import dto.interfaces.IRole;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class Role implements IRole, Serializable {
 
     @ManyToMany(mappedBy = "userRoles",
             targetEntity = User.class, fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List users = new ArrayList();
 
     public Role(){
