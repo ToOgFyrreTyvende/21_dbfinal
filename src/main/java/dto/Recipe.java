@@ -6,7 +6,7 @@ import dto.interfaces.IRecipe;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "Recipes", uniqueConstraints = {
@@ -23,13 +23,13 @@ public class Recipe implements IRecipe, Serializable {
 
     @OneToMany(mappedBy = "recipeHistoryRecipe", cascade = CascadeType.ALL,
             targetEntity = RecipeHistory.class)
-    private Collection recipeHistory = new ArrayList();
+    private List recipeHistory = new ArrayList();
 
     @ManyToMany(targetEntity = Ingredient.class)
     @JoinTable(name = "Recipes_Ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
-    private Collection recipeIngredients = new ArrayList();
+    private List recipeIngredients = new ArrayList();
 
     public Recipe(){
     }
@@ -55,7 +55,7 @@ public class Recipe implements IRecipe, Serializable {
     }
 
     @Override
-    public Collection getRecipeHistory(){
+    public List getRecipeHistory(){
         return recipeHistory;
     }
 
@@ -65,7 +65,7 @@ public class Recipe implements IRecipe, Serializable {
     }
 
     @Override
-    public Collection getRecipeIngredients(){
+    public List getRecipeIngredients(){
         return recipeIngredients;
     }
 

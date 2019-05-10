@@ -5,7 +5,7 @@ import dto.interfaces.IIngredient;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "Ingredients", uniqueConstraints = {
@@ -24,11 +24,11 @@ public class Ingredient implements IIngredient, Serializable {
 
     @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL,
             targetEntity = RawMatBatch.class)
-    private Collection recipeRawMatBatch = new ArrayList();
+    private List recipeRawMatBatch = new ArrayList();
 
     @ManyToMany(mappedBy = "recipeIngredients",
             targetEntity = Recipe.class)
-    private Collection recipes = new ArrayList();
+    private List recipes = new ArrayList();
 
     public Ingredient(){
         this.active = false;
@@ -65,7 +65,7 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
-    public Collection getRecipeRawMatBatch(){
+    public List getRecipeRawMatBatch(){
         return recipeRawMatBatch;
     }
 
@@ -75,7 +75,7 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
-    public Collection getRecipes(){
+    public List getRecipes(){
         return recipes;
     }
 

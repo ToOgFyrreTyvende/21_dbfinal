@@ -5,7 +5,7 @@ import dto.interfaces.IUser;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "Users", uniqueConstraints = {
@@ -32,13 +32,13 @@ public class User implements IUser, Serializable {
     @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Collection userRoles = new ArrayList();
+    private List userRoles = new ArrayList();
 
     @ManyToMany(targetEntity = Product.class)
     @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Collection userProducts = new ArrayList();
+    private List userProducts = new ArrayList();
     //TODO Add relevant fields
 
     public User(){
@@ -103,7 +103,7 @@ public class User implements IUser, Serializable {
     }
 
     @Override
-    public Collection getUserRoles(){
+    public List getUserRoles(){
         return userRoles;
     }
 
@@ -113,7 +113,7 @@ public class User implements IUser, Serializable {
     }
 
     @Override
-    public Collection getUserProducts(){
+    public List getUserProducts(){
         return userProducts;
     }
 

@@ -1,7 +1,7 @@
 package dto.interfaces;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public interface IProductBatch {
     int getProdBatchId();
@@ -10,6 +10,6 @@ public interface IProductBatch {
     void setProduct(IProduct product);
     IProductBatchStatus getBatchStatus();
     void setBatchStatus(IProductBatchStatus batchStatus);
-    Collection getRawMatBatches();
+    List getRawMatBatches();
     void setRawMatBatches(ArrayList rawMatBatches);
 }

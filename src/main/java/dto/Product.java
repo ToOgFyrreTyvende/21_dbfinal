@@ -6,7 +6,7 @@ import dto.interfaces.IRecipe;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "Products", uniqueConstraints = {
@@ -22,7 +22,7 @@ public class Product implements IProduct, Serializable {
 
     @ManyToMany(mappedBy = "userProducts",
             targetEntity = User.class)
-    private Collection users = new ArrayList();
+    private List users = new ArrayList();
 
     @OneToOne(cascade = CascadeType.ALL,
             targetEntity = Recipe.class)
@@ -31,7 +31,7 @@ public class Product implements IProduct, Serializable {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,
             targetEntity = ProductBatch.class)
-    private Collection prodBatch = new ArrayList();
+    private List prodBatch = new ArrayList();
 
     public Product(){
     }
@@ -57,7 +57,7 @@ public class Product implements IProduct, Serializable {
     }
 
     @Override
-    public Collection getUsers(){
+    public List getUsers(){
         return users;
     }
 
@@ -77,7 +77,7 @@ public class Product implements IProduct, Serializable {
     }
 
     @Override
-    public Collection getProdBatch(){
+    public List getProdBatch(){
         return prodBatch;
     }
 

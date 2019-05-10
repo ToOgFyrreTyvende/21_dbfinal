@@ -3,13 +3,11 @@ package dto;
 import dto.interfaces.IProduct;
 import dto.interfaces.IProductBatch;
 import dto.interfaces.IProductBatchStatus;
-import dto.interfaces.IRawMatBatch;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Product_Batches", uniqueConstraints = {
@@ -33,7 +31,7 @@ public class ProductBatch implements IProductBatch, Serializable {
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "product_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "supplier_batch_id")})
-    private Collection rawMatBatches = new ArrayList();
+    private List rawMatBatches = new ArrayList();
 
     public ProductBatch(){
     }
@@ -69,7 +67,7 @@ public class ProductBatch implements IProductBatch, Serializable {
     }
 
     @Override
-    public Collection getRawMatBatches(){
+    public List getRawMatBatches(){
         return rawMatBatches;
     }
 
