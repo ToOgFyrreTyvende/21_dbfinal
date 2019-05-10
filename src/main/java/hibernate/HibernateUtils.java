@@ -176,8 +176,8 @@ public class HibernateUtils {
         IUser retrievedUser = getRoleSession.get(User.class, 1);
         System.out.println("Retrieved user:\n" + retrievedUser);
         // ArrayList<IRole> retrUsersRoles = (ArrayList<IRole>) retrievedUser.getUserRoles();
-        // System.out.println("Role 1: " + retrUsersRoles.get(0) +
-        //         "\nRole 2: " + retrUsersRoles.get(1));
+        System.out.println("Role 1: " + retrievedUser.getUserRoles().get(0) +
+                "\nRole 2: " + retrievedUser.getUserRoles().get(1));
         getRoleSession.close();
     }
 }
