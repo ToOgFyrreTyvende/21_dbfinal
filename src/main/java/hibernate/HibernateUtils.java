@@ -148,8 +148,8 @@ public class HibernateUtils {
         createDefaultRoles();
         System.out.println("\n----- Creating default ingredients -----");
         createDefaultIngredients();
-        // System.out.println("\n----- Beginning user testing -----");
-        // userTesting();
+        System.out.println("\n----- Beginning user testing -----");
+        userTesting();
     }
 
 
@@ -181,12 +181,16 @@ public class HibernateUtils {
         // session save & commit
         session.save(testMulti);
         session.getTransaction().commit();
+        session.beginTransaction();
         // Checking
         System.out.println("Done saving, now retrieving...");
         IUser retrievedUser = session.get(User.class, 1);
         System.out.println("Retrieved user:\n" + retrievedUser);
         System.out.println("Role 1: " + retrievedUser.getUserRoles().get(0) +
                 "\nRole 2: " + retrievedUser.getUserRoles().get(1));
+        // Deleting
+        session.delete(testMulti);
+        session.getTransaction().commit();
         session.close();
     }
 }
