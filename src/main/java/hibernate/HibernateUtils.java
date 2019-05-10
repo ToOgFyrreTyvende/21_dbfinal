@@ -30,7 +30,8 @@ public class HibernateUtils {
         prop.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
         prop.setProperty("hibernate.hbm2ddl.auto", "create"); //Opretter tabeller automatisk
         prop.setProperty("hibernate.hbm2ddl.auto", "update"); //Opdaterer eksisterende tabeller
-        prop.setProperty("show_sql", "true"); //If you wish to see the generated sql query
+        prop.setProperty("hibernate.show_sql", "true"); //If you wish to see the generated sql query
+        prop.setProperty("hibernate.format_sql", "true");
         //</editor-fold>
 
         factory = new Configuration()
