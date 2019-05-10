@@ -17,7 +17,11 @@ public class UserDAO {
         SessionFactory factory = HibernateUtils.getSessionFactory();
         Session session = factory.openSession();
         session.beginTransaction();
-        session.saveOrUpdate(user);
+        // if (session.get(User.class, user.getUserId()) != null){
+        //     System.out.println("User already exists in database, aborted...");
+        //     return;
+        // }
+        session.save(user);
         session.getTransaction().commit();
         User checkUser = session.get(User.class, user.getUserId());
         System.out.println("Saved user \"" + checkUser.getUserName() + "\" to database.");
@@ -29,6 +33,11 @@ public class UserDAO {
         Session session = factory.openSession();
         session.beginTransaction();
         IUser user = session.get(User.class, userId);
+        // if (user == null){
+        //     System.out.println("No user found with specified id..." +
+        //             "\nReturning empty user");
+        //     return new User();
+        // }
         session.getTransaction().commit();
         session.close();
         System.out.println("User found:\n" + user);
@@ -42,14 +51,30 @@ public class UserDAO {
         SessionFactory factory = HibernateUtils.getSessionFactory();
         Session session = factory.openSession();
         session.beginTransaction();
-        session.update(user);
+        IUser oldUser = session.get(User.class, user.getUserId());
+        // if (oldUser == null){
+        //     System.out.println("No user found with given users id, aborting...");
+        //     return;
+        // }
+        oldUser = user;
+        session.update(oldUser);
         session.getTransaction().commit();
         session.close();
         System.out.println("Updated user:\n" + user);
     }
 
     public void deleteUser(IUser user){
-        // TODO: This method
+        SessionFactory factory = HibernateUtils.getSessionFactory();
+        Session session = factory.openSession();
+        session.beginTransaction();
+        IUser oldUser = (User) session.get(User.class, user.getUserId());
+        // if (oldUser == null){
+        //     System.out.println("No user found, aborting...");
+        //     return;
+        // }
+        session.delete(oldUser);
+        session.getTransaction().commit();
+        session.close();
     }
 
     private boolean isValidUser(IUser user){
