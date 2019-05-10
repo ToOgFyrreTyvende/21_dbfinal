@@ -15,6 +15,9 @@ public class ProductBatchStatus implements IProductBatchStatus, Serializable {
     @Column(name = "product_batch_status_id")
     private int prodBatchStatusId;
 
+    @Column(name = "status", nullable = false)
+    private String prodBatchStatus;
+
     @OneToOne(mappedBy = "batchStatus",
             targetEntity = ProductBatch.class)
     private IProductBatch productBatch;
