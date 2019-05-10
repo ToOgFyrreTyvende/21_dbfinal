@@ -20,7 +20,7 @@ public class Product implements IProduct, Serializable {
     @Column(name = "product_name")
     private String productName;
 
-    @ManyToMany(mappedBy = "userProducts",
+    @ManyToMany(mappedBy = "userProducts", cascade = CascadeType.ALL,
             targetEntity = User.class)
     private List users = new ArrayList();
 

@@ -27,7 +27,7 @@ public class ProductBatch implements IProductBatch, Serializable {
     @JoinColumn(name = "batch_status_id", unique = true)
     private IProductBatchStatus batchStatus;
 
-    @ManyToMany(targetEntity = RawMatBatch.class)
+    @ManyToMany(targetEntity = RawMatBatch.class, cascade = CascadeType.ALL)
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "product_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "supplier_batch_id")})

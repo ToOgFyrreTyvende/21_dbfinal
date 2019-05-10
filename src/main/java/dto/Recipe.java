@@ -25,7 +25,7 @@ public class Recipe implements IRecipe, Serializable {
             targetEntity = RecipeHistory.class)
     private List recipeHistory = new ArrayList();
 
-    @ManyToMany(targetEntity = Ingredient.class)
+    @ManyToMany(targetEntity = Ingredient.class, cascade = CascadeType.ALL)
     @JoinTable(name = "Recipes_Ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
