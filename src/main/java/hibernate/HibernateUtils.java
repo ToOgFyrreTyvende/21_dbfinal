@@ -99,10 +99,19 @@ public class HibernateUtils {
         return factory;
     }
 
+    public static List<IRole> getDefaultRoles(){
+        return defaultRoles;
+    }
+
+    public static List<IIngredient> getDefaultIngredients(){
+        return defaultIngredients;
+    }
+
     private static void createDefaultRoles(){
         Session session1 = factory.openSession();
         session1.beginTransaction();
         for (IRole defaultRole : defaultRoles){
+            // if (session1.get(Role.class, defaultRole.getRoleId()) == null) continue;
             session1.save(defaultRole);
             System.out.println("Inserted default role \""
                     + defaultRole.getRoleName() + "\" Successfully");
@@ -139,7 +148,7 @@ public class HibernateUtils {
         System.out.println("\n----- Creating default ingredients -----");
         createDefaultIngredients();
         System.out.println("\n----- Beginning user testing -----");
-        userTesting();
+        // userTesting();
     }
 
 
@@ -156,9 +165,9 @@ public class HibernateUtils {
         System.out.println("init user:\n" + testMulti);
         Collection<IRole> multiRoleList = new ArrayList<>();
         // Start session
-        Session getRoleSession = factory.openSession();
+        Session session = factory.openSession();
         // Session saveUserSession = factory.openSession();
-        getRoleSession.beginTransaction();
+        session.beginTransaction();
         // Get roles from db
         System.out.println();
         multiRoleList.add(defaultRoles.get(0));
@@ -169,15 +178,14 @@ public class HibernateUtils {
         testMulti.setUserRoles((ArrayList) multiRoleList);
         System.out.println("multirole user has " + testMulti.getUserRoles().size() + " roles\n");
         // session save & commit
-        getRoleSession.save(testMulti);
-        getRoleSession.getTransaction().commit();
+        session.save(testMulti);
+        session.getTransaction().commit();
         // Checking
         System.out.println("Done saving, now retrieving...");
-        IUser retrievedUser = getRoleSession.get(User.class, 1);
+        IUser retrievedUser = session.get(User.class, 1);
         System.out.println("Retrieved user:\n" + retrievedUser);
-        // ArrayList<IRole> retrUsersRoles = (ArrayList<IRole>) retrievedUser.getUserRoles();
         System.out.println("Role 1: " + retrievedUser.getUserRoles().get(0) +
                 "\nRole 2: " + retrievedUser.getUserRoles().get(1));
-        getRoleSession.close();
+        session.close();
     }
 }
