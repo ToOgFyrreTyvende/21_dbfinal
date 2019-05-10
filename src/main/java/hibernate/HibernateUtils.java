@@ -148,7 +148,7 @@ public class HibernateUtils {
         createDefaultRoles();
         System.out.println("\n----- Creating default ingredients -----");
         createDefaultIngredients();
-        System.out.println("\n----- Beginning user testing -----");
+        // System.out.println("\n----- Beginning user testing -----");
         // userTesting();
     }
 
