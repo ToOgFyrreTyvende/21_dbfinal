@@ -48,6 +48,13 @@ public class User implements IUser, Serializable {
     public User(){
     }
 
+    public User(String _username, String _ini, String _cpr, String _password){
+        this.userName = _username;
+        this.ini = _ini;
+        this.cpr = _cpr;
+        this.password = _password;
+    }
+
     public User(int _userId, String _username, String _ini, String _cpr, String _password){
         this.userId = _userId;
         this.userName = _username;
