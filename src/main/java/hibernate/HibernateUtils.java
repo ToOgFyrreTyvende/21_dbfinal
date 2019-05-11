@@ -112,7 +112,7 @@ public class HibernateUtils {
         Session session1 = factory.openSession();
         session1.beginTransaction();
         for (IRole defaultRole : defaultRoles){
-            // if (session1.get(Role.class, defaultRole.getRoleId()) == null) continue;
+            if (session1.get(Role.class, defaultRole.getRoleId()) != null) continue;
             session1.save(defaultRole);
             System.out.println("Inserted default role \""
                     + defaultRole.getRoleName() + "\" Successfully");
@@ -122,7 +122,7 @@ public class HibernateUtils {
         System.out.println("Retrieving role(s) now to check for errors...");
         Role firstRole = (Role) session1.get(Role.class, 1);
         Role secondRole = (Role) session1.get(Role.class, 2);
-        System.out.println("Retrieved role name: " + firstRole.getRoleName());
+        System.out.println("Role 1: " + firstRole.getRoleName());
         System.out.println("Role 2: " + secondRole.getRoleName());
         session1.close();
     }
@@ -131,6 +131,7 @@ public class HibernateUtils {
         Session session = factory.openSession();
         session.beginTransaction();
         for (IIngredient ingredient : defaultIngredients){
+            if (session.get(Ingredient.class, ingredient.getIngredientId()) != null) continue;
             session.save(ingredient);
             System.out.println("Inserted default ingredient \""
                     + ingredient.getIngredientName() + "\" Succesfully");
@@ -159,16 +160,12 @@ public class HibernateUtils {
         testUsers.add(new User(222, "testPLead", "pro", "222222-2222", "lead"));
         testUsers.add(new User(333, "testFarma", "farm", "333333-3333", "farm"));
         testUsers.add(new User(444, "testLaborant", "lab", "444444-4444", "lab"));
-        testUsers.add(new User(555, "testmulti", "adv", "555555-5555", "spec"));
+        testUsers.add(new User("testmulti", "adv", "555555-5555", "spec"));
     }
     private static void userTesting(){
-        IUser testMulti = testUsers.get(4);
-        System.out.println("init user:\n" + testMulti);
+        IUser testUsr = testUsers.get(4);
+        System.out.println("init user:\n" + testUsr);
         Collection<IRole> multiRoleList = new ArrayList<>();
-        // Start session
-        Session session = factory.openSession();
-        // Session saveUserSession = factory.openSession();
-        session.beginTransaction();
         // Get roles from db
         System.out.println();
         multiRoleList.add(defaultRoles.get(0));
@@ -176,20 +173,24 @@ public class HibernateUtils {
         multiRoleList.add(defaultRoles.get(1));
         System.out.println("Add " + defaultRoles.get(1).getRoleName() + " to multiRoleList");
         // set Test users roles
-        testMulti.setUserRoles((ArrayList) multiRoleList);
-        System.out.println("multirole user has " + testMulti.getUserRoles().size() + " roles\n");
+        testUsr.setUserRoles((ArrayList) multiRoleList);
+        System.out.println("multirole user has " + testUsr.getUserRoles().size() + " roles\n");
+        // Start session & begin transaction
+        Session session = factory.openSession();
+        session.beginTransaction();
         // session save & commit
-        session.save(testMulti);
+        int testUserId = (Integer) session.save(testUsr);
+        System.out.println("\nTest user was assigned id: " + testUserId + " by database\n");
         session.getTransaction().commit();
         session.beginTransaction();
         // Checking
         System.out.println("Done saving, now retrieving...");
-        IUser retrievedUser = session.get(User.class, 1);
+        IUser retrievedUser = session.get(User.class, testUserId);
         System.out.println("Retrieved user:\n" + retrievedUser);
         System.out.println("Role 1: " + retrievedUser.getUserRoles().get(0) +
-                "\nRole 2: " + retrievedUser.getUserRoles().get(1));
+                "\nRole 2: " + retrievedUser.getUserRoles().get(1) + "\n");
         // Deleting
-        session.delete(testMulti);
+        session.delete(testUsr);
         session.getTransaction().commit();
         session.close();
     }
