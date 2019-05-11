@@ -1,5 +1,6 @@
 package hibernate;
 
+import dal.UserDAO;
 import dto.*;
 import dto.interfaces.IIngredient;
 import dto.interfaces.IRole;
@@ -31,7 +32,7 @@ public class HibernateUtils {
         prop.setProperty("hibernate.hbm2ddl.auto", "create"); //Opretter tabeller automatisk
         prop.setProperty("hibernate.hbm2ddl.auto", "update"); //Opdaterer eksisterende tabeller
         prop.setProperty("hibernate.show_sql", "true"); //If you wish to see the generated sql query
-        prop.setProperty("hibernate.format_sql", "true");
+        // prop.setProperty("hibernate.format_sql", "true"); // If you want generated sql to be formatted nicely
         //</editor-fold>
 
         factory = new Configuration()
@@ -150,7 +151,9 @@ public class HibernateUtils {
         System.out.println("\n----- Creating default ingredients -----");
         createDefaultIngredients();
         System.out.println("\n----- Beginning user testing -----");
-        userTesting();
+        // userTesting();
+        userDAOTesting();
+
     }
 
 
@@ -161,25 +164,31 @@ public class HibernateUtils {
         testUsers.add(new User(222, "testPLead", "pro", "222222-2222", "lead"));
         testUsers.add(new User(333, "testFarma", "farm", "333333-3333", "farm"));
         testUsers.add(new User(444, "testLaborant", "lab", "444444-4444", "lab"));
-        testUsers.add(new User("testmulti", "adv", "555555-5555", "spec"));
+        testUsers.add(new User("testMulti", "adv", "555555-5555", "spec"));
+        testUsers.get(4).addRole(defaultRoles.get(0));
+        testUsers.get(4).addRole(defaultRoles.get(1));
     }
 
     private static void userTesting(){
         IUser testUsr = testUsers.get(4);
         System.out.println("init user:\n" + testUsr);
-        Collection<IRole> multiRoleList = new ArrayList<>();
-        // Get roles from db
+        // Collection<IRole> multiRoleList = new ArrayList<>();
+
+        // Get roles
         System.out.println();
-        multiRoleList.add(defaultRoles.get(0));
-        System.out.println("Add " + defaultRoles.get(0).getRoleName() + " to multiRoleList");
-        multiRoleList.add(defaultRoles.get(1));
-        System.out.println("Add " + defaultRoles.get(1).getRoleName() + " to multiRoleList");
+        // multiRoleList.add(defaultRoles.get(0));
+        // System.out.println("Add " + defaultRoles.get(0).getRoleName() + " to multiRoleList");
+        // multiRoleList.add(defaultRoles.get(1));
+        // System.out.println("Add " + defaultRoles.get(1).getRoleName() + " to multiRoleList");
         // set Test users roles
-        testUsr.setUserRoles((ArrayList) multiRoleList);
+
+        // testUsr.setUserRoles((ArrayList) multiRoleList);
         System.out.println("multirole user has " + testUsr.getUserRoles().size() + " roles\n");
+
         // Start session & begin transaction
         Session session = factory.openSession();
         session.beginTransaction();
+
         // session save & commit
         int testUserId = (Integer) session.save(testUsr);
         System.out.println("\nTest user was assigned id: " + testUserId + " by database\n");
@@ -194,6 +203,44 @@ public class HibernateUtils {
         // Deleting
         session.delete(testUsr);
         session.getTransaction().commit();
+        session.close();
+    }
+
+    private static void userDAOTesting(){
+        UserDAO dao = new UserDAO();
+        IUser testUser = testUsers.get(4);
+        System.out.println("Init user:\n" + testUser + "\n");
+
+        Session session = factory.openSession();
+        // Create user
+        System.out.println("Attempting to create user now...\n");
+        int retrId = dao.createUser(session, testUser);
+        if (retrId == -1){
+            System.out.println("That user apparently already exists... Aborting test run...");
+            return;
+        }
+        testUser.setUserId(retrId);
+        System.out.println("\nUser created with id: " + testUser.getUserId() + "\n");
+
+        // Update user
+        System.out.println("Attempting to update user now...\n");
+        testUser.setUserName("UpdatedTest");
+        testUser.setIni("upd");
+        dao.updateUser(session, testUser);
+        System.out.println("No errors so far... Going well i hope!\n");
+
+        // Get user
+        System.out.println("Attempting to retrieve user now...\n");
+        IUser retrUser = dao.getUser(session, testUser.getUserId());
+        System.out.println("Retrieved user:\n\t" + retrUser);
+        System.out.println("Retrieved users roles:" +
+                                   "\n\tRole 1: " + retrUser.getUserRoles().get(0) +
+                                   "\n\tRole 2: " + retrUser.getUserRoles().get(1));
+
+        // Delete user
+        System.out.println("\nAttempting to delete user now...\n");
+        dao.deleteUser(session, testUser);
+
         session.close();
     }
 }
