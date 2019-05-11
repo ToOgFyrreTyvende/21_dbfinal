@@ -38,12 +38,12 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
-    public int getIngredientId() {
+    public int getIngredientId(){
         return ingredientId;
     }
 
     @Override
-    public void setIngredientId(int ingredientId) {
+    public void setIngredientId(int ingredientId){
         this.ingredientId = ingredientId;
     }
 
@@ -58,12 +58,12 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
-    public boolean isActive() {
+    public boolean isActive(){
         return active;
     }
 
     @Override
-    public void setActive(boolean active) {
+    public void setActive(boolean active){
         this.active = active;
     }
 

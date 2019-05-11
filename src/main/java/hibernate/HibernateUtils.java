@@ -115,7 +115,7 @@ public class HibernateUtils {
             if (session1.get(Role.class, defaultRole.getRoleId()) != null) continue;
             session1.save(defaultRole);
             System.out.println("Inserted default role \""
-                    + defaultRole.getRoleName() + "\" Successfully");
+                                       + defaultRole.getRoleName() + "\" Successfully");
         }
         session1.getTransaction().commit();
         System.out.println("Finished saving default roles to database,");
@@ -134,7 +134,7 @@ public class HibernateUtils {
             if (session.get(Ingredient.class, ingredient.getIngredientId()) != null) continue;
             session.save(ingredient);
             System.out.println("Inserted default ingredient \""
-                    + ingredient.getIngredientName() + "\" Succesfully");
+                                       + ingredient.getIngredientName() + "\" Succesfully");
         }
         session.getTransaction().commit();
         System.out.println("Finished saving default ingredients to database.");
@@ -155,13 +155,15 @@ public class HibernateUtils {
 
 
     private static List<IUser> testUsers = new ArrayList<>();
-    static {
+
+    static{
         testUsers.add(new User(111, "testAdmin", "adm", "111111-1111", "root"));
         testUsers.add(new User(222, "testPLead", "pro", "222222-2222", "lead"));
         testUsers.add(new User(333, "testFarma", "farm", "333333-3333", "farm"));
         testUsers.add(new User(444, "testLaborant", "lab", "444444-4444", "lab"));
         testUsers.add(new User("testmulti", "adv", "555555-5555", "spec"));
     }
+
     private static void userTesting(){
         IUser testUsr = testUsers.get(4);
         System.out.println("init user:\n" + testUsr);
@@ -188,7 +190,7 @@ public class HibernateUtils {
         IUser retrievedUser = session.get(User.class, testUserId);
         System.out.println("Retrieved user:\n" + retrievedUser);
         System.out.println("Role 1: " + retrievedUser.getUserRoles().get(0) +
-                "\nRole 2: " + retrievedUser.getUserRoles().get(1) + "\n");
+                                   "\nRole 2: " + retrievedUser.getUserRoles().get(1) + "\n");
         // Deleting
         session.delete(testUsr);
         session.getTransaction().commit();

@@ -23,12 +23,12 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
     }
 
     @Override
-    public int getRecipeHistId() {
+    public int getRecipeHistId(){
         return recipeHistId;
     }
 
     @Override
-    public void setRecipeHistId(int recipeHistId) {
+    public void setRecipeHistId(int recipeHistId){
         this.recipeHistId = recipeHistId;
     }
 
