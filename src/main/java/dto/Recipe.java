@@ -2,6 +2,8 @@ package dto;
 
 import dto.interfaces.IProduct;
 import dto.interfaces.IRecipe;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,7 +27,8 @@ public class Recipe implements IRecipe, Serializable {
             targetEntity = RecipeHistory.class)
     private List recipeHistory = new ArrayList();
 
-    @ManyToMany(targetEntity = Ingredient.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Ingredient.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "Recipes_Ingredients",
             joinColumns = {@JoinColumn(name = "recipe_id")},
             inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})

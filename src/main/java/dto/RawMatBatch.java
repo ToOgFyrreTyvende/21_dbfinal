@@ -2,6 +2,8 @@ package dto;
 
 import dto.interfaces.IIngredient;
 import dto.interfaces.IRawMatBatch;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,6 +29,7 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     private boolean residual;
 
     @ManyToMany(targetEntity = ProductBatch.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "supplier_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_batch_id")})

@@ -1,6 +1,8 @@
 package dto;
 
 import dto.interfaces.IIngredient;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +30,7 @@ public class Ingredient implements IIngredient, Serializable {
 
     @ManyToMany(mappedBy = "recipeIngredients",
             targetEntity = Recipe.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List recipes = new ArrayList();
 
     public Ingredient(){

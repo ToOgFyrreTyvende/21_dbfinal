@@ -3,6 +3,8 @@ package dto;
 import dto.interfaces.IProduct;
 import dto.interfaces.IProductBatch;
 import dto.interfaces.IProductBatchStatus;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,7 +29,8 @@ public class ProductBatch implements IProductBatch, Serializable {
     @JoinColumn(name = "batch_status_id", unique = true)
     private IProductBatchStatus batchStatus;
 
-    @ManyToMany(targetEntity = RawMatBatch.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = RawMatBatch.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "product_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "supplier_batch_id")})
