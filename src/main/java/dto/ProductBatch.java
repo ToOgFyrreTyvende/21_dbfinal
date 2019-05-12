@@ -22,12 +22,12 @@ public class ProductBatch implements IProductBatch, Serializable {
     private int prodBatchId;
 
     @ManyToOne(targetEntity = Product.class)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private IProduct product;
 
     @OneToOne(cascade = CascadeType.ALL,
             targetEntity = ProductBatchStatus.class)
-    @JoinColumn(name = "batch_status_id", unique = true)
+    @JoinColumn(name = "batch_status_id", unique = true, nullable = false)
     private IProductBatchStatus batchStatus;
 
     @ManyToMany(targetEntity = RawMatBatch.class)
