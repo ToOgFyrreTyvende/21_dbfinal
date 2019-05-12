@@ -3,9 +3,13 @@ package dto;
 import dto.interfaces.IIngredient;
 import dto.interfaces.IProduct;
 import dto.interfaces.IRecipe;
+import dto.interfaces.IRecipeHistory;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "Recipes", indexes = {@Index(columnList = "ingredient_id")})
@@ -51,6 +55,10 @@ public class Recipe implements IRecipe, Serializable {
     // @OneToMany(fetch = FetchType.LAZY, mappedBy = "amount", targetEntity = RecipeHistory.class)
     @Column(name = "ingredient_amount", nullable = false)
     private double amount;
+
+    @OneToMany(targetEntity = RecipeHistory.class)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private List<IRecipeHistory> recipeHistories;
 
     public Recipe(){
     }
