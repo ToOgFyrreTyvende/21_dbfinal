@@ -57,18 +57,22 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
         this.recipeHistoryRecipe = recipeHistoryRecipe;
     }
 
+    @Override
     public String getAction(){
         return action;
     }
 
+    @Override
     public void setAction(String action){
         this.action = action;
     }
 
+    @Override
     public Date getTimeStamp(){
         return timeStamp;
     }
 
+    @Override
     public void setTimeStamp(Date timeStamp){
         this.timeStamp = timeStamp;
     }
