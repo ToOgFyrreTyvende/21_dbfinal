@@ -8,6 +8,10 @@ public interface IProduct {
     void setProdId(int prodId);
     String getProductName();
     void setProductName(String productName);
+    double getYield();
+    void setYield(double yield);
+    double getShelfTime();
+    void setShelfTime(double shelfTime);
     List getUsers();
     void setUsers(ArrayList users);
     IRecipe getProductRecipe();

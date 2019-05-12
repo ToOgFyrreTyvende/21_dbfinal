@@ -22,6 +22,12 @@ public class Product implements IProduct, Serializable {
     @Column(name = "product_name")
     private String productName;
 
+    @Column(name = "product_yield", nullable = false)
+    private double yield;
+
+    @Column(name = "shelf_time", nullable = false)
+    private double shelfTime;
+
     @ManyToMany(mappedBy = "userProducts",
             targetEntity = User.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -57,6 +63,26 @@ public class Product implements IProduct, Serializable {
     @Override
     public void setProductName(String productName){
         this.productName = productName;
+    }
+
+    @Override
+    public double getYield(){
+        return yield;
+    }
+
+    @Override
+    public void setYield(double yield){
+        this.yield = yield;
+    }
+
+    @Override
+    public double getShelfTime(){
+        return shelfTime;
+    }
+
+    @Override
+    public void setShelfTime(double shelfTime){
+        this.shelfTime = shelfTime;
     }
 
     @Override
