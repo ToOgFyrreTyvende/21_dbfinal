@@ -1,24 +1,21 @@
 package hibernate;
 
-import dal.UserDAO;
+import dal.*;
 import dto.*;
-import dto.interfaces.IIngredient;
-import dto.interfaces.IRole;
-import dto.interfaces.IUser;
+import dto.interfaces.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class HibernateUtils {
     private static final Properties prop;
     private static final SessionFactory factory;
     private static List<IRole> defaultRoles = new ArrayList<>();
     private static List<IIngredient> defaultIngredients = new ArrayList<>();
+    private static List<IProductBatchStatus> defaultPBStatuses = new ArrayList<>();
+    private static List<IRawMatBatch> defaultRawMatBatches = new ArrayList<>();
 
     static{
         // Configure Hibernate
@@ -54,18 +51,22 @@ public class HibernateUtils {
         IRole adminRole = new Role();
         adminRole.setRoleId(1);
         adminRole.setRoleName("Admin");
+        defaultRoles.add(adminRole);
 
         IRole prodLederRole = new Role();
         prodLederRole.setRoleId(2);
         prodLederRole.setRoleName("Produktionsleder");
+        defaultRoles.add(prodLederRole);
 
         IRole farmaceutRole = new Role();
         farmaceutRole.setRoleId(3);
         farmaceutRole.setRoleName("Farmaceut");
+        defaultRoles.add(farmaceutRole);
 
         IRole laborantRole = new Role();
         laborantRole.setRoleId(4);
         laborantRole.setRoleName("Laborant");
+        defaultRoles.add(laborantRole);
         //</editor-fold>
 
         //<editor-fold desc="Create default ingredients">
@@ -73,27 +74,68 @@ public class HibernateUtils {
         sildenafil.setIngredientId(1);
         sildenafil.setIngredientName("Sildenafil");
         sildenafil.setActive(true);
+        defaultIngredients.add(sildenafil);
 
         IIngredient estradiol = new Ingredient();
         estradiol.setIngredientId(2);
         estradiol.setIngredientName("Estradiol");
         estradiol.setActive(true);
+        defaultIngredients.add(estradiol);
 
         IIngredient opovidon = new Ingredient();
         opovidon.setIngredientId(3);
         opovidon.setIngredientName("Opovidon");
         opovidon.setActive(false);
+        defaultIngredients.add(opovidon);
         //</editor-fold>
 
-        //<editor-fold desc="Add roles/ingredients to defaultRoles/Ingredients ArrayList">
-        defaultRoles.add(adminRole);
-        defaultRoles.add(prodLederRole);
-        defaultRoles.add(farmaceutRole);
-        defaultRoles.add(laborantRole);
+        //<editor-fold desc="Create default statuses">
+        IProductBatchStatus status1 = new ProductBatchStatus();
+        status1.setProdBatchStatusId(1);
+        status1.setProdBatchStatus("Ready to begin production");
+        defaultPBStatuses.add(status1);
 
-        defaultIngredients.add(sildenafil);
-        defaultIngredients.add(estradiol);
-        defaultIngredients.add(opovidon);
+        IProductBatchStatus status2 = new ProductBatchStatus();
+        status2.setProdBatchStatusId(2);
+        status2.setProdBatchStatus("In production");
+        defaultPBStatuses.add(status2);
+
+        IProductBatchStatus status3 = new ProductBatchStatus();
+        status3.setProdBatchStatusId(3);
+        status3.setProdBatchStatus("Production complete");
+        defaultPBStatuses.add(status3);
+        //</editor-fold>
+
+        //<editor-fold desc="Create default Raw Mat Batches">
+        IRawMatBatch rmb1 = new RawMatBatch();
+        rmb1.setBatchId(1);
+        rmb1.setIngredients(defaultIngredients.get(0));
+        rmb1.setTotal(550.0);
+        rmb1.setRemaining(rmb1.getTotal());
+        rmb1.setSupplierName("Google");
+        rmb1.setSupplierBatchId(1);
+        rmb1.setResidual(false);
+        defaultRawMatBatches.add(rmb1);
+
+        IRawMatBatch rmb2 = new RawMatBatch();
+        rmb2.setBatchId(2);
+        rmb2.setIngredients(defaultIngredients.get(1));
+        rmb2.setTotal(625.0);
+        rmb2.setRemaining(rmb2.getTotal());
+        rmb2.setSupplierName("DTU");
+        rmb2.setSupplierBatchId(2);
+        rmb2.setResidual(false);
+        defaultRawMatBatches.add(rmb2);
+
+        IRawMatBatch rmb3 = new RawMatBatch();
+        rmb3.setBatchId(3);
+        rmb3.setIngredients(defaultIngredients.get(2));
+        rmb3.setTotal(475.0);
+        rmb3.setRemaining(rmb3.getTotal());
+        rmb3.setSupplierName("Delegate");
+        rmb3.setSupplierBatchId(3);
+        rmb3.setResidual(false);
+        defaultRawMatBatches.add(rmb3);
         //</editor-fold>
     }
 
@@ -145,25 +187,64 @@ public class HibernateUtils {
         session.close();
     }
 
+    private static void createDefaultStatuses(){
+        Session session = factory.openSession();
+        session.beginTransaction();
+        for (IProductBatchStatus status : defaultPBStatuses){
+            if (session.get(ProductBatchStatus.class, status.getProdBatchStatusId()) != null) continue;
+            session.save(status);
+            System.out.println("Inserted default ProductBatchStatus: \"" +
+                                       status.getProdBatchStatus() + "\" succesfully");
+        }
+        session.getTransaction().commit();
+        System.out.println("Finished saving default PBStatuses to database");
+        System.out.println("Retrieving first to check for errors...");
+        IProductBatchStatus firstPBS = session.get(ProductBatchStatus.class, 1);
+        System.out.println("Retrieved status string: " + firstPBS.getProdBatchStatus());
+        session.close();
+    }
+
+    private static void createDefaultRawMatBatches(){
+        Session session = factory.openSession();
+        session.beginTransaction();
+        for (IRawMatBatch rmb : defaultRawMatBatches){
+            if (session.get(RawMatBatch.class, rmb.getBatchId()) != null) continue;
+            rmb.setBatchId((Integer) session.save(rmb));
+            System.out.println("Inserted default RMB for ingredient: " + rmb.getIngredients().getIngredientName() + "succesfully");
+        }
+        session.getTransaction().commit();
+        System.out.println("Finished saving default RMB to database");
+        System.out.println("Retrieving first RMB to check for errors...");
+        IRawMatBatch firstRMB = session.get(RawMatBatch.class, defaultRawMatBatches.get(0).getBatchId());
+        System.out.println("Retrieved rmb ingredient: " + firstRMB.getIngredients().getIngredientName());
+        session.close();
+    }
+
     public static void main(String[] args){
         System.out.println("\n----- Creating default roles -----");
         createDefaultRoles();
         System.out.println("\n----- Creating default ingredients -----");
         createDefaultIngredients();
-        System.out.println("\n----- Beginning user testing -----");
+        System.out.println("\n----- Creating default PBStatuses -----");
+        createDefaultStatuses();
+        System.out.println("\n----- Creating default RMBs -----");
+        createDefaultRawMatBatches();
+        // System.out.println("\n----- Beginning user testing -----");
         // userTesting();
-        userDAOTesting();
-
+        // userDAOTesting();
+        System.out.println("\n----- Beginning whole system test -----");
+        wholeSysTesting();
     }
 
 
     private static List<IUser> testUsers = new ArrayList<>();
 
     static{
-        testUsers.add(new User(111, "testAdmin", "adm", "111111-1111", "root"));
-        testUsers.add(new User(222, "testPLead", "pro", "222222-2222", "lead"));
-        testUsers.add(new User(333, "testFarma", "farm", "333333-3333", "farm"));
-        testUsers.add(new User(444, "testLaborant", "lab", "444444-4444", "lab"));
+        testUsers.add(new User("testAdmin", "adm", "111111-1111", "root"));
+        testUsers.add(new User("testPLead", "pro", "222222-2222", "lead"));
+        testUsers.add(new User("testFarma", "farm", "333333-3333", "farm"));
+        testUsers.add(new User("testLaborant", "lab", "444444-4444", "lab"));
+        testUsers.get(3).addRole(defaultRoles.get(3));
         testUsers.add(new User("testMulti", "adv", "555555-5555", "spec"));
         testUsers.get(4).addRole(defaultRoles.get(0));
         testUsers.get(4).addRole(defaultRoles.get(1));
@@ -242,5 +323,95 @@ public class HibernateUtils {
         dao.deleteUser(session, testUser);
 
         session.close();
+    }
+
+    private static void wholeSysTesting(){
+        //<editor-fold desc="Create new DAO objects">
+        UserDAO uDAO = new UserDAO();
+        RoleDAO roleDAO = new RoleDAO();
+        IngredientDAO iDAO = new IngredientDAO();
+        ProductDAO prodDAO = new ProductDAO();
+        ProductBatchDAO pBDAO = new ProductBatchDAO();
+        RawMatBatchDAO rmbDAO = new RawMatBatchDAO();
+        //</editor-fold>
+
+        System.out.println("Init users\n" + testUsers.get(4) + "\n" + testUsers.get(3));
+
+        IProduct prod1 = new Product();
+        prod1.setProdId(1);
+        prod1.setProductName("testProd1");
+        prod1.setUsers(Arrays.asList(testUsers.get(4), testUsers.get(3)));
+
+        IRecipe recipe1 = new Recipe();
+        recipe1.setAmount(35.0);
+        recipe1.setIngredient(defaultIngredients.get(0));
+        recipe1.setProduct(prod1);
+        IRecipe recipe2 = new Recipe();
+        recipe2.setAmount(45.0);
+        recipe2.setIngredient(defaultIngredients.get(1));
+        recipe2.setProduct(prod1);
+
+        prod1.setRecipes(Arrays.asList(recipe1, recipe2));
+        prod1.setShelfTime(420.0);
+        prod1.setYield(0.85);
+
+        IProductBatch pb1 = new ProductBatch();
+        pb1.setProdBatchId(1);
+        pb1.setProduct(prod1);
+        pb1.setBatchStatus(defaultPBStatuses.get(0));
+        pb1.setRawMatBatches(Arrays.asList(defaultRawMatBatches.get(0),
+                                           defaultRawMatBatches.get(1),
+                                           defaultRawMatBatches.get(2)));
+        IProductBatch pb2 = pb1;
+        pb2.setProdBatchId(2);
+
+        // prod1.setProdBatch(Arrays.asList(pb1, pb2));
+        prod1.setUsers(Arrays.asList(testUsers.get(4), testUsers.get(3)));
+
+        Session ses = factory.openSession();
+
+        System.out.println("Attempting to save the two users now...");
+        int autoGenId;
+        autoGenId = uDAO.createUser(ses, testUsers.get(4));
+        testUsers.get(4).setUserId(autoGenId);
+        autoGenId = uDAO.createUser(ses, testUsers.get(3));
+        testUsers.get(3).setUserId(autoGenId);
+        System.out.println("If you're seeing this, it went fine :)\n");
+
+        System.out.println("Attempting to save the product now!!!");
+        int prodId;
+        prodId = prodDAO.createProduct(ses, prod1);
+        prod1.setProdId(prodId);
+        System.out.println("If you're seeing this, it went fine!\n");
+
+        System.out.println("Attempt create prod batch...");
+        pBDAO.createProdBatch(ses, pb1);
+        pBDAO.createProdBatch(ses, pb2);
+        System.out.println("Went gut yes");
+
+        System.out.println("\nRetrieving some info now...");
+        System.out.println("Retrieving product...");
+        IProduct retrProd = prodDAO.getProduct(ses, prod1.getProdId());
+        System.out.println("Retrieved product:\n" + retrProd.getProductName());
+        System.out.println("\nIngredients from product:\n\t1:\t" +
+                                   retrProd.getRecipes().get(0).getIngredient().getIngredientName() + "\n\t2:\t" +
+                                   retrProd.getRecipes().get(1).getIngredient().getIngredientName());
+        // System.out.println("Product batch1 status:\n\t" +
+        //                            retrProd.getProdBatch().get(0).getBatchStatus().getProdBatchStatus());
+        // System.out.println("Product batch1 remaining amount:\n\t" +
+        //                            retrProd.getProdBatch().get(0).getRawMatBatches().get(0).getRemaining());
+        System.out.println("Product users:\n\t" +
+                                   retrProd.getUsers().get(0) + "\n\t" +
+                                   retrProd.getUsers().get(1));
+        System.out.println();
+
+        System.out.println("Deleting stuff now...");
+        pBDAO.deleteProdBatch(ses, pb1);
+        pBDAO.deleteProdBatch(ses, pb2);
+        prodDAO.deleteProduct(ses, prod1);
+        uDAO.deleteUser(ses, testUsers.get(4));
+        uDAO.deleteUser(ses, testUsers.get(3));
+        System.out.println("I make later, pls no judge...");
+        ses.close();
     }
 }
