@@ -23,7 +23,6 @@ import org.hibernate.Session;
 public class UserDAO {
     // CRUD operations on User
     // TODO: (Method that checks if a user is in the database?)
-    //  + deleteUser method
 
     /**
      * Creates a new user in the database, unless given user is invalid.
@@ -42,15 +41,8 @@ public class UserDAO {
         if (isInvalidUser(user)) return -1;
 
         session.beginTransaction();
-        // if (session.get(User.class, user.getUserId()) != null){
-        //     System.out.println("User already exists in database, aborted...");
-        //     return -1;
-        // }
         int userId = (Integer) session.save(user);
         session.getTransaction().commit();
-        // session.beginTransaction();
-        // User retrUser = session.get(User.class, userId);
-        // session.getTransaction().commit();
         // System.out.println("Saved following user to database:\n" + retrUser);
         return userId;
     }
@@ -80,8 +72,6 @@ public class UserDAO {
     public void updateUser(Session session, IUser user){
         if (isInvalidUser(user)) return;
 
-        // SessionFactory factory = HibernateUtils.getSessionFactory();
-        // Session session = factory.openSession();
         IUser oldUser = getUser(session, user.getUserId());
         if (oldUser == null){
             System.out.println("No user found, aborting...");
@@ -96,8 +86,6 @@ public class UserDAO {
     }
 
     public void deleteUser(Session session, IUser user){
-        // SessionFactory factory = HibernateUtils.getSessionFactory();
-        // Session session = factory.openSession();
         IUser oldUser = getUser(session, user.getUserId());
         if (oldUser == null){
             System.out.println("No user found, aborting...");
@@ -106,7 +94,6 @@ public class UserDAO {
         session.beginTransaction();
         session.delete(oldUser);
         session.getTransaction().commit();
-        // session.close();
     }
 
     private boolean isInvalidUser(IUser user){
@@ -116,9 +103,6 @@ public class UserDAO {
 
 
     public static void main(String[] args){
-        // Create dummy user
-        // User user = new User(42, "Dråbelyd",
-        //         "DUI", "420360-1337", "dummyBoi");
 
 
     }
