@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Raw_Mat_Batches", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "supplier_batch_id")})
+@Table(name = "Raw_Mat_Batches", indexes = {
+        @Index(columnList = "ingredient_id")})
 public class RawMatBatch implements IRawMatBatch, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     private List<IProductBatch> rawMatProductBatches = new ArrayList<>();
 
     @ManyToOne(targetEntity = Ingredient.class)
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_id", nullable = false)
     private IIngredient ingredients;
 
     public RawMatBatch(){
