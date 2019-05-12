@@ -5,6 +5,7 @@ import dto.interfaces.IRecipeHistory;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "Recipe_History", uniqueConstraints = {
@@ -16,8 +17,22 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
     private int recipeHistId;
 
     @ManyToOne(targetEntity = Recipe.class)
-    @JoinColumn(name = "recipe_id")
+    @JoinColumns({@JoinColumn(name = "ingredient_id", nullable = false),
+            @JoinColumn(name = "product_id", nullable = false)})
     private IRecipe recipeHistoryRecipe;
+
+    @Column(name = "action", nullable = false)
+    private String action;
+
+    // @ManyToOne(targetEntity = Recipe.class)
+    // @JoinColumn(name = "ingredient_amount", nullable = false)
+    // private double amount;
+    @Column(name = "ingredient_amount", nullable = false)
+    private double amount;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "timestamp", nullable = false)
+    private Date timeStamp;
 
     public RecipeHistory(){
     }
@@ -40,5 +55,21 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
     @Override
     public void setRecipeHistoryRecipe(IRecipe recipeHistoryRecipe){
         this.recipeHistoryRecipe = recipeHistoryRecipe;
+    }
+
+    public String getAction(){
+        return action;
+    }
+
+    public void setAction(String action){
+        this.action = action;
+    }
+
+    public Date getTimeStamp(){
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp){
+        this.timeStamp = timeStamp;
     }
 }
