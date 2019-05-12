@@ -9,6 +9,8 @@ public interface IRecipeHistory {
     void setRecipeHistoryRecipe(IRecipe recipeHistoryRecipe);
     String getAction();
     void setAction(String action);
+    double getAmount();
+    void setAmount(double amount);
     Date getTimeStamp();
     void setTimeStamp(Date timeStamp);
 }
