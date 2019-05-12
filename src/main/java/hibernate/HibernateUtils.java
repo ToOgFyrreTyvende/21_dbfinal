@@ -384,10 +384,10 @@ public class HibernateUtils {
         prod1.setProdId(prodId);
         System.out.println("If you're seeing this, it went fine!\n");
 
-        System.out.println("Attempt create prod batch...");
+        System.out.println("Attempting to save product batch...");
         pBDAO.createProdBatch(ses, pb1);
         pBDAO.createProdBatch(ses, pb2);
-        System.out.println("Went gut yes");
+        System.out.println("If you're reading this, it went fine!");
 
         System.out.println("\nRetrieving some info now...");
         System.out.println("Retrieving product...");
@@ -405,13 +405,13 @@ public class HibernateUtils {
                                    retrProd.getUsers().get(1));
         System.out.println();
 
-        System.out.println("Deleting stuff now...");
+        System.out.println("Deleting test objects now...");
         pBDAO.deleteProdBatch(ses, pb1);
         pBDAO.deleteProdBatch(ses, pb2);
         prodDAO.deleteProduct(ses, prod1);
         uDAO.deleteUser(ses, testUsers.get(4));
         uDAO.deleteUser(ses, testUsers.get(3));
-        System.out.println("I make later, pls no judge...");
+        System.out.println("Done!");
         ses.close();
     }
 }
