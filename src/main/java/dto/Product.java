@@ -22,7 +22,7 @@ public class Product implements IProduct, Serializable {
     @Column(name = "product_id", unique = true, nullable = false)
     private int prodId;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
     @Column(name = "product_yield", nullable = false)
