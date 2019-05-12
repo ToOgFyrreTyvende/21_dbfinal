@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Recipes")
+@Table(name = "Recipes", indexes = {@Index(columnList = "ingredient_id")})
 @AssociationOverrides({
         @AssociationOverride(name = "pk.product",
                 joinColumns = @JoinColumn(name = "product_id")),
@@ -26,20 +26,24 @@ public class Recipe implements IRecipe, Serializable {
         this.pk = pk;
     }
 
+    @Override
     @Transient
     public IProduct getProduct(){
         return getPk().getProduct();
     }
 
+    @Override
     public void setProduct(IProduct product){
         getPk().setProduct(product);
     }
 
+    @Override
     @Transient
     public IIngredient getIngredient(){
         return getPk().getIngredient();
     }
 
+    @Override
     public void setIngredient(IIngredient ingr){
         getPk().setIngredient(ingr);
     }
