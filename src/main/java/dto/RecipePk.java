@@ -3,15 +3,16 @@ package dto;
 import dto.interfaces.IIngredient;
 import dto.interfaces.IProduct;
 
+import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.io.Serializable;
 
+@Embeddable
 public class RecipePk implements Serializable {
     private IProduct product;
     private IIngredient ingredient;
 
-    @OneToOne
+    @ManyToOne(targetEntity = Product.class)
     public IProduct getProduct(){
         return product;
     }
@@ -20,7 +21,7 @@ public class RecipePk implements Serializable {
         this.product = prod;
     }
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Ingredient.class)
     public IIngredient getIngredient(){
         return ingredient;
     }

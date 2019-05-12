@@ -1,96 +1,64 @@
 package dto;
 
+import dto.interfaces.IIngredient;
 import dto.interfaces.IProduct;
 import dto.interfaces.IRecipe;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "Recipes", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "recipe_id")})
+@Table(name = "Recipes")
 @AssociationOverrides({
-        @AssociationOverride(name = "")
+        @AssociationOverride(name = "pk.product",
+                joinColumns = @JoinColumn(name = "product_id")),
+        @AssociationOverride(name = "pk.ingredient",
+                joinColumns = @JoinColumn(name = "ingredient_id"))
 })
 public class Recipe implements IRecipe, Serializable {
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(name = "recipe_id", unique = true, nullable = false)
-    // private int recipeId;
+    private RecipePk pk = new RecipePk();
 
     @EmbeddedId
-    private IRecipe recipeId = new Recipe();
+    private RecipePk getPk(){
+        return pk;
+    }
 
+    private void setPk(RecipePk pk){
+        this.pk = pk;
+    }
 
+    @Transient
+    public IProduct getProduct(){
+        return getPk().getProduct();
+    }
 
-    // @OneToOne(mappedBy = "productRecipe",
-    //         targetEntity = Product.class)
-    // private IProduct recipeProduct;
+    public void setProduct(IProduct product){
+        getPk().setProduct(product);
+    }
 
-    @OneToMany(mappedBy = "recipeHistoryRecipe", cascade = CascadeType.ALL,
-            targetEntity = RecipeHistory.class)
-    private List recipeHistory = new ArrayList();
+    @Transient
+    public IIngredient getIngredient(){
+        return getPk().getIngredient();
+    }
 
-    @ManyToMany(targetEntity = Ingredient.class)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinTable(name = "Recipes_Ingredients",
-            joinColumns = {@JoinColumn(name = "recipe_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ingredient_id")})
-    private List recipeIngredients = new ArrayList();
+    public void setIngredient(IIngredient ingr){
+        getPk().setIngredient(ingr);
+    }
+
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "amount", targetEntity = RecipeHistory.class)
+    @Column(name = "ingredient_amount", nullable = false)
+    private double amount;
 
     public Recipe(){
     }
 
     @Override
-    public IRecipe getRecipeId(){
-        return this.recipeId;
-    }
-
-    public void setRecipeId(IRecipe recipeId){
-        this.recipeId = recipeId;
-    }
-
-    // @Override
-    // public int getRecipeId(){
-    //     return recipeId;
-    // }
-    //
-    // @Override
-    // public void setRecipeId(int recipeId){
-    //     this.recipeId = recipeId;
-    // }
-
-    @Override
-    public IProduct getRecipeProduct(){
-        return recipeProduct;
+    public double getAmount(){
+        return amount;
     }
 
     @Override
-    public void setRecipeProduct(IProduct recipeProduct){
-        this.recipeProduct = recipeProduct;
-    }
-
-    @Override
-    public List getRecipeHistory(){
-        return recipeHistory;
-    }
-
-    @Override
-    public void setRecipeHistory(ArrayList recipeHistory){
-        this.recipeHistory = recipeHistory;
-    }
-
-    @Override
-    public List getRecipeIngredients(){
-        return recipeIngredients;
-    }
-
-    @Override
-    public void setRecipeIngredients(ArrayList recipeIngredients){
-        this.recipeIngredients = recipeIngredients;
+    public void setAmount(double amount){
+        this.amount = amount;
     }
 }
