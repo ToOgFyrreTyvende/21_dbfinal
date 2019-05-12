@@ -25,8 +25,8 @@ public class ProductBatch implements IProductBatch, Serializable {
     @JoinColumn(name = "product_id", nullable = false)
     private IProduct product;
 
-    @OneToOne(cascade = CascadeType.ALL,
-            targetEntity = ProductBatchStatus.class)
+    @OneToOne(targetEntity = ProductBatchStatus.class)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "batch_status_id", unique = true, nullable = false)
     private IProductBatchStatus batchStatus;
 
