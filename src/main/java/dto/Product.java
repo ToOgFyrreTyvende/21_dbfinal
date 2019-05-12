@@ -33,10 +33,13 @@ public class Product implements IProduct, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List users = new ArrayList();
 
-    @OneToOne(cascade = CascadeType.ALL,
-            targetEntity = Recipe.class)
-    @JoinColumn(name = "product_recipe_id", unique = true)
-    private IRecipe productRecipe;
+    // @OneToOne(cascade = CascadeType.ALL,
+    //         targetEntity = Recipe.class)
+    // @JoinColumn(name = "product_recipe_id", unique = true)
+    // private IRecipe productRecipe;
+
+    @OneToMany(fetch = FetchType.LAZY, )
+    private List<IRecipe> recipe = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,
             targetEntity = ProductBatch.class)
@@ -95,15 +98,15 @@ public class Product implements IProduct, Serializable {
         this.users = users;
     }
 
-    @Override
-    public IRecipe getProductRecipe(){
-        return productRecipe;
-    }
-
-    @Override
-    public void setProductRecipe(IRecipe productRecipe){
-        this.productRecipe = productRecipe;
-    }
+    // @Override
+    // public IRecipe getProductRecipe(){
+    //     return productRecipe;
+    // }
+    //
+    // @Override
+    // public void setProductRecipe(IRecipe productRecipe){
+    //     this.productRecipe = productRecipe;
+    // }
 
     @Override
     public List getProdBatch(){

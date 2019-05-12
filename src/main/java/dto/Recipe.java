@@ -13,15 +13,23 @@ import java.util.List;
 @Entity
 @Table(name = "Recipes", uniqueConstraints = {
         @UniqueConstraint(columnNames = "recipe_id")})
+@AssociationOverrides({
+        @AssociationOverride(name = "")
+})
 public class Recipe implements IRecipe, Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_id", unique = true, nullable = false)
-    private int recipeId;
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Column(name = "recipe_id", unique = true, nullable = false)
+    // private int recipeId;
 
-    @OneToOne(mappedBy = "productRecipe",
-            targetEntity = Product.class)
-    private IProduct recipeProduct;
+    @EmbeddedId
+    private IRecipe recipeId = new Recipe();
+
+
+
+    // @OneToOne(mappedBy = "productRecipe",
+    //         targetEntity = Product.class)
+    // private IProduct recipeProduct;
 
     @OneToMany(mappedBy = "recipeHistoryRecipe", cascade = CascadeType.ALL,
             targetEntity = RecipeHistory.class)
@@ -38,14 +46,23 @@ public class Recipe implements IRecipe, Serializable {
     }
 
     @Override
-    public int getRecipeId(){
-        return recipeId;
+    public IRecipe getRecipeId(){
+        return this.recipeId;
     }
 
-    @Override
-    public void setRecipeId(int recipeId){
+    public void setRecipeId(IRecipe recipeId){
         this.recipeId = recipeId;
     }
+
+    // @Override
+    // public int getRecipeId(){
+    //     return recipeId;
+    // }
+    //
+    // @Override
+    // public void setRecipeId(int recipeId){
+    //     this.recipeId = recipeId;
+    // }
 
     @Override
     public IProduct getRecipeProduct(){

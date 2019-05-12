@@ -14,8 +14,8 @@ public interface IProduct {
     void setShelfTime(double shelfTime);
     List getUsers();
     void setUsers(ArrayList users);
-    IRecipe getProductRecipe();
-    void setProductRecipe(IRecipe productRecipe);
+    // IRecipe getProductRecipe();
+    // void setProductRecipe(IRecipe productRecipe);
     List getProdBatch();
     void setProdBatch(ArrayList prodBatch);
 }
