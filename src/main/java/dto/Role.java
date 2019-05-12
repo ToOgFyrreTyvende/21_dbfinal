@@ -1,6 +1,7 @@
 package dto;
 
 import dto.interfaces.IRole;
+import dto.interfaces.IUser;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -25,7 +26,7 @@ public class Role implements IRole, Serializable {
     @ManyToMany(mappedBy = "userRoles",
             targetEntity = User.class, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List users = new ArrayList();
+    private List<IUser> users = new ArrayList<>();
 
     public Role(){
     }
@@ -51,12 +52,12 @@ public class Role implements IRole, Serializable {
     }
 
     @Override
-    public List getUsers(){
+    public List<IUser> getUsers(){
         return users;
     }
 
     @Override
-    public void setUsers(ArrayList users){
+    public void setUsers(List<IUser> users){
         this.users = users;
     }
 

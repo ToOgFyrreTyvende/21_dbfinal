@@ -12,11 +12,10 @@ public interface IProduct {
     void setYield(double yield);
     double getShelfTime();
     void setShelfTime(double shelfTime);
-    List getUsers();
-    void setUsers(ArrayList users);
-
+    List<IUser> getUsers();
+    void setUsers(List<IUser> users);
     List<IRecipe> getRecipes();
     void setRecipes(List<IRecipe> recipes);
-    List getProdBatch();
-    void setProdBatch(ArrayList prodBatch);
+    List<IProductBatch> getProdBatch();
+    void setProdBatch(List<IProductBatch> prodBatch);
 }

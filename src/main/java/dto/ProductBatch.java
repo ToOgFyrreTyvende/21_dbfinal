@@ -3,6 +3,7 @@ package dto;
 import dto.interfaces.IProduct;
 import dto.interfaces.IProductBatch;
 import dto.interfaces.IProductBatchStatus;
+import dto.interfaces.IRawMatBatch;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -34,7 +35,7 @@ public class ProductBatch implements IProductBatch, Serializable {
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "product_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "supplier_batch_id")})
-    private List rawMatBatches = new ArrayList();
+    private List<IRawMatBatch> rawMatBatches = new ArrayList<>();
 
     public ProductBatch(){
     }
@@ -70,12 +71,12 @@ public class ProductBatch implements IProductBatch, Serializable {
     }
 
     @Override
-    public List getRawMatBatches(){
+    public List<IRawMatBatch> getRawMatBatches(){
         return rawMatBatches;
     }
 
     @Override
-    public void setRawMatBatches(ArrayList rawMatBatches){
+    public void setRawMatBatches(List<IRawMatBatch> rawMatBatches){
         this.rawMatBatches = rawMatBatches;
     }
 }

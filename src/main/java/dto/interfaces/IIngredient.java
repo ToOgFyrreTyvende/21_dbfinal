@@ -10,8 +10,8 @@ public interface IIngredient {
     void setIngredientName(String ingredientName);
     boolean isActive();
     void setActive(boolean active);
-    List getRecipeRawMatBatch();
-    void setRecipeRawMatBatch(ArrayList recipeRawMatBatch);
-    List getRecipes();
+    List<IRawMatBatch> getRecipeRawMatBatch();
+    void setRecipeRawMatBatch(List<IRawMatBatch> recipeRawMatBatch);
+    List<IRecipe> getRecipes();
     void setRecipes(List<IRecipe> recipes);
 }

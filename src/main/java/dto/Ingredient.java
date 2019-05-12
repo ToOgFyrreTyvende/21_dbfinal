@@ -1,6 +1,7 @@
 package dto;
 
 import dto.interfaces.IIngredient;
+import dto.interfaces.IRawMatBatch;
 import dto.interfaces.IRecipe;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
@@ -28,7 +29,7 @@ public class Ingredient implements IIngredient, Serializable {
 
     @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL,
             targetEntity = RawMatBatch.class)
-    private List recipeRawMatBatch = new ArrayList();
+    private List<IRawMatBatch> recipeRawMatBatch = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.ingredient",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
@@ -72,12 +73,12 @@ public class Ingredient implements IIngredient, Serializable {
     }
 
     @Override
-    public List getRecipeRawMatBatch(){
+    public List<IRawMatBatch> getRecipeRawMatBatch(){
         return recipeRawMatBatch;
     }
 
     @Override
-    public void setRecipeRawMatBatch(ArrayList recipeRawMatBatch){
+    public void setRecipeRawMatBatch(List<IRawMatBatch> recipeRawMatBatch){
         this.recipeRawMatBatch = recipeRawMatBatch;
     }
 

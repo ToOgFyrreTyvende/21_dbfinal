@@ -14,10 +14,10 @@ public interface IUser {
     void setCpr(String cpr);
     String getPassword();
     void setPassword(String password);
-    List getUserRoles();
-    void setUserRoles(ArrayList<IRole> userRoles);
-    List getUserProducts();
-    void setUserProducts(ArrayList userProducts);
+    List<IRole> getUserRoles();
+    void setUserRoles(List<IRole> userRoles);
+    List<IProduct> getUserProducts();
+    void setUserProducts(List<IProduct> userProducts);
     void addRole(IRole role);
     boolean removeRole(IRole role);
 }

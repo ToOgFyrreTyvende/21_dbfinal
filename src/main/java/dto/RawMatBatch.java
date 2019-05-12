@@ -1,6 +1,7 @@
 package dto;
 
 import dto.interfaces.IIngredient;
+import dto.interfaces.IProductBatch;
 import dto.interfaces.IRawMatBatch;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -39,7 +40,7 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     @JoinTable(name = "Product_Batches_Raw_Mat_Batches",
             joinColumns = {@JoinColumn(name = "supplier_batch_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_batch_id")})
-    private List rawMatProductBatches = new ArrayList();
+    private List<IProductBatch> rawMatProductBatches = new ArrayList<>();
 
     @ManyToOne(targetEntity = Ingredient.class)
     @JoinColumn(name = "ingredient_id")
@@ -109,12 +110,12 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     }
 
     @Override
-    public List getRawMatProductBatches(){
+    public List<IProductBatch> getRawMatProductBatches(){
         return rawMatProductBatches;
     }
 
     @Override
-    public void setRawMatProductBatches(List rawMatProductBatches){
+    public void setRawMatProductBatches(List<IProductBatch> rawMatProductBatches){
         this.rawMatProductBatches = rawMatProductBatches;
     }
 

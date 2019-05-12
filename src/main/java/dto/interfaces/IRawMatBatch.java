@@ -15,8 +15,8 @@ public interface IRawMatBatch {
     void setRemaining(double remaining);
     boolean isResidual();
     void setResidual(boolean residual);
-    List getRawMatProductBatches();
-    void setRawMatProductBatches(List rawMatProductBatches);
+    List<IProductBatch> getRawMatProductBatches();
+    void setRawMatProductBatches(List<IProductBatch> rawMatProductBatches);
     IIngredient getIngredients();
     void setIngredients(IIngredient ingredients);
 }

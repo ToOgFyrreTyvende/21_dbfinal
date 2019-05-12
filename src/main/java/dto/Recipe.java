@@ -13,8 +13,7 @@ import java.io.Serializable;
         @AssociationOverride(name = "pk.product",
                 joinColumns = @JoinColumn(name = "product_id")),
         @AssociationOverride(name = "pk.ingredient",
-                joinColumns = @JoinColumn(name = "ingredient_id"))
-})
+                joinColumns = @JoinColumn(name = "ingredient_id"))})
 public class Recipe implements IRecipe, Serializable {
     private RecipePk pk = new RecipePk();
 

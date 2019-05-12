@@ -1,5 +1,6 @@
 package dto;
 
+import dto.interfaces.IProduct;
 import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 import org.hibernate.annotations.OnDelete;
@@ -43,7 +44,7 @@ public class User implements IUser, Serializable {
     @JoinTable(name = "Users_Products",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List userProducts = new ArrayList();
+    private List<IProduct> userProducts = new ArrayList<>();
     //TODO Add relevant fields
 
     public User(){
@@ -115,22 +116,22 @@ public class User implements IUser, Serializable {
     }
 
     @Override
-    public List getUserRoles(){
+    public List<IRole> getUserRoles(){
         return userRoles;
     }
 
     @Override
-    public void setUserRoles(ArrayList<IRole> userRoles){
+    public void setUserRoles(List<IRole> userRoles){
         this.userRoles = userRoles;
     }
 
     @Override
-    public List getUserProducts(){
+    public List<IProduct> getUserProducts(){
         return userProducts;
     }
 
     @Override
-    public void setUserProducts(ArrayList userProducts){
+    public void setUserProducts(List<IProduct> userProducts){
         this.userProducts = userProducts;
     }
 

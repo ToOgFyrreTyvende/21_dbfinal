@@ -9,6 +9,6 @@ public interface IRole {
     void setRoleId(int roleId);
     String getRoleName();
     void setRoleName(String roleName);
-    List getUsers();
-    void setUsers(ArrayList users);
+    List<IUser> getUsers();
+    void setUsers(List<IUser> users);
 }
