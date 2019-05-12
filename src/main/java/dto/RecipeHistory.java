@@ -30,7 +30,7 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
     @Column(name = "ingredient_amount", nullable = false)
     private double amount;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp", nullable = false)
     private Date timeStamp;
 
@@ -57,18 +57,32 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
         this.recipeHistoryRecipe = recipeHistoryRecipe;
     }
 
+    @Override
     public String getAction(){
         return action;
     }
 
+    @Override
     public void setAction(String action){
         this.action = action;
     }
 
+    @Override
+    public double getAmount(){
+        return amount;
+    }
+
+    @Override
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+
+    @Override
     public Date getTimeStamp(){
         return timeStamp;
     }
 
+    @Override
     public void setTimeStamp(Date timeStamp){
         this.timeStamp = timeStamp;
     }
