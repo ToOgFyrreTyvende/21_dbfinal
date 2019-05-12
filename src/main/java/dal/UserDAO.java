@@ -58,12 +58,6 @@ public class UserDAO {
     public IUser getUser(Session session, int userId){
         session.beginTransaction();
         IUser user = session.get(User.class, userId);
-        // IUser user = session.get(User.class, userId);
-        // if (user == null){
-        //     System.out.println("No user found with specified id..." +
-        //             "\nReturning empty user");
-        //     return new User();
-        // }
         session.getTransaction().commit();
         // System.out.println("User found:\n" + user);
         return user;
@@ -81,8 +75,6 @@ public class UserDAO {
         session.beginTransaction();
         session.update(oldUser);
         session.getTransaction().commit();
-        // session.close();
-        // System.out.println("Updated user:\n" + user);
     }
 
     public void deleteUser(Session session, IUser user){
