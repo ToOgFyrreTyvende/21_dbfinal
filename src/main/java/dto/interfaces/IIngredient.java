@@ -13,5 +13,5 @@ public interface IIngredient {
     List getRecipeRawMatBatch();
     void setRecipeRawMatBatch(ArrayList recipeRawMatBatch);
     List getRecipes();
-    void setRecipes(ArrayList recipes);
+    void setRecipes(List<IRecipe> recipes);
 }
