@@ -44,5 +44,15 @@ public class ProductBatchStatus implements IProductBatchStatus, Serializable {
     public void setProductBatch(IProductBatch productBatch){
         this.productBatch = productBatch;
     }
+
+    @Override
+    public String getProdBatchStatus(){
+        return prodBatchStatus;
+    }
+
+    @Override
+    public void setProdBatchStatus(String prodBatchStatus){
+        this.prodBatchStatus = prodBatchStatus;
+    }
 }
 

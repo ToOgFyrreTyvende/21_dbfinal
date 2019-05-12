@@ -6,4 +6,6 @@ public interface IProductBatchStatus {
     void setProdBatchStatusId(int prodBatchStatusId);
     IProductBatch getProductBatch();
     void setProductBatch(IProductBatch productBatch);
+    String getProdBatchStatus();
+    void setProdBatchStatus(String prodBatchStatus);
 }
