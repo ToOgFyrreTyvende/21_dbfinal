@@ -21,7 +21,7 @@ public class HibernateUtils {
         // Configure Hibernate
         prop = new Properties();
         //<editor-fold desc="Setting properties">
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://" + System.getenv("DB_URL") + "/21_dbfinal");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://" + System.getenv("DB_URL") + "/andersm");
         prop.setProperty("dialect", "org.hibernate.dialect.MySQL8Dialect");
         prop.setProperty("hibernate.connection.username", System.getenv("DB_USER"));
         prop.setProperty("hibernate.connection.password", System.getenv("DB_PASS"));
