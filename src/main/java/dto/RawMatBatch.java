@@ -16,17 +16,23 @@ import java.util.List;
 public class RawMatBatch implements IRawMatBatch, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "supplier_batch_id", unique = true, nullable = false)
+    @Column(name = "batch_id", unique = true, nullable = false)
     private int batchId;
 
-    @Column(name = "manufacturer_name", nullable = false, length = 80)
-    private String manufacturerName;
+    @Column(name = "supplier_batch_id", nullable = false)
+    private int supplierBatchId;
 
-    @Column(name = "amount", nullable = false)
-    private double amount;
+    @Column(name = "supplier_name", nullable = false, length = 80)
+    private String supplierName;
 
-    @Column(name = "residual")
-    private boolean residual;
+    @Column(name = "total", nullable = false)
+    private double total;
+
+    @Column(name = "remaining", nullable = false)
+    private double remaining;
+
+    @Column(name = "residual", columnDefinition = "BIT DEFAULT 0", nullable = false)
+    private boolean residual = false;
 
     @ManyToMany(targetEntity = ProductBatch.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -53,23 +59,43 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     }
 
     @Override
-    public String getManufacturerName(){
-        return manufacturerName;
+    public int getSupplierBatchId(){
+        return supplierBatchId;
     }
 
     @Override
-    public void setManufacturerName(String manufacturerName){
-        this.manufacturerName = manufacturerName;
+    public void setSupplierBatchId(int supplierBatchId){
+        this.supplierBatchId = supplierBatchId;
     }
 
     @Override
-    public double getAmount(){
-        return amount;
+    public String getSupplierName(){
+        return supplierName;
     }
 
     @Override
-    public void setAmount(double amount){
-        this.amount = amount;
+    public void setSupplierName(String supplierName){
+        this.supplierName = supplierName;
+    }
+
+    @Override
+    public double getTotal(){
+        return total;
+    }
+
+    @Override
+    public void setTotal(double total){
+        this.total = total;
+    }
+
+    @Override
+    public double getRemaining(){
+        return remaining;
+    }
+
+    @Override
+    public void setRemaining(double remaining){
+        this.remaining = remaining;
     }
 
     @Override
@@ -88,7 +114,7 @@ public class RawMatBatch implements IRawMatBatch, Serializable {
     }
 
     @Override
-    public void setRawMatProductBatches(ArrayList rawMatProductBatches){
+    public void setRawMatProductBatches(List rawMatProductBatches){
         this.rawMatProductBatches = rawMatProductBatches;
     }
 
