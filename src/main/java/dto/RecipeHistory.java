@@ -1,6 +1,5 @@
 package dto;
 
-import dto.interfaces.IRecipe;
 import dto.interfaces.IRecipeHistory;
 
 import javax.persistence.*;
@@ -16,17 +15,15 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
     @Column(name = "recipe_history_id", unique = true, nullable = false)
     private int recipeHistId;
 
-    @ManyToOne(targetEntity = Recipe.class)
-    @JoinColumns({@JoinColumn(name = "ingredient_id", nullable = false),
-            @JoinColumn(name = "product_id", nullable = false)})
-    private IRecipe recipeHistoryRecipe;
+    @Column(name = "ingredient_id", nullable = false)
+    private int ingredientId;
+
+    @Column(name = "product_id", nullable = false)
+    private int productId;
 
     @Column(name = "action", nullable = false)
     private String action;
 
-    // @ManyToOne(targetEntity = Recipe.class)
-    // @JoinColumn(name = "ingredient_amount", nullable = false)
-    // private double amount;
     @Column(name = "ingredient_amount", nullable = false)
     private double amount;
 
@@ -48,13 +45,23 @@ public class RecipeHistory implements IRecipeHistory, Serializable {
     }
 
     @Override
-    public IRecipe getRecipeHistoryRecipe(){
-        return recipeHistoryRecipe;
+    public int getIngredientId(){
+        return ingredientId;
     }
 
     @Override
-    public void setRecipeHistoryRecipe(IRecipe recipeHistoryRecipe){
-        this.recipeHistoryRecipe = recipeHistoryRecipe;
+    public void setIngredientId(int ingredientId){
+        this.ingredientId = ingredientId;
+    }
+
+    @Override
+    public int getProductId(){
+        return productId;
+    }
+
+    @Override
+    public void setProductId(int productId){
+        this.productId = productId;
     }
 
     @Override
