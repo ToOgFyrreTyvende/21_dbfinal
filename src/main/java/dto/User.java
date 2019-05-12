@@ -1,5 +1,6 @@
 package dto;
 
+import dto.interfaces.IRole;
 import dto.interfaces.IUser;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -35,7 +36,7 @@ public class User implements IUser, Serializable {
     @JoinTable(name = "Users_Roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List userRoles = new ArrayList();
+    private List<IRole> userRoles = new ArrayList<>();
 
     @ManyToMany(targetEntity = Product.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -119,7 +120,7 @@ public class User implements IUser, Serializable {
     }
 
     @Override
-    public void setUserRoles(ArrayList userRoles){
+    public void setUserRoles(ArrayList<IRole> userRoles){
         this.userRoles = userRoles;
     }
 
@@ -132,24 +133,20 @@ public class User implements IUser, Serializable {
     public void setUserProducts(ArrayList userProducts){
         this.userProducts = userProducts;
     }
-    // public List<String> getUserRoles() {
-    //     return userRoles;
-    // }
-    // public void setUserRoles(List<String> userRoles) {
-    //     this.userRoles = userRoles;
-    // }
-    //
-    // public void addRole(String role){
-    //     this.userRoles.add(role);
-    // }
-    // /**
-    //  *
-    //  * @param role
-    //  * @return true if role existed, false if not
-    //  */
-    // public boolean removeRole(String role){
-    //     return this.userRoles.remove(role);
-    // }
+
+    @Override
+    public void addRole(IRole role){
+        this.userRoles.add(role);
+    }
+    /**
+     *
+     * @param role IRole object
+     * @return <tt>true</tt> if users list of roles contained role
+     */
+    @Override
+    public boolean removeRole(IRole role){
+        return this.userRoles.remove(role);
+    }
 
     @Override
     public String toString(){

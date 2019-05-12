@@ -15,7 +15,9 @@ public interface IUser {
     String getPassword();
     void setPassword(String password);
     List getUserRoles();
-    void setUserRoles(ArrayList userRoles);
+    void setUserRoles(ArrayList<IRole> userRoles);
     List getUserProducts();
     void setUserProducts(ArrayList userProducts);
+    void addRole(IRole role);
+    boolean removeRole(IRole role);
 }
