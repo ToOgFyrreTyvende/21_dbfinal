@@ -21,14 +21,14 @@ public class HibernateUtils {
         // Configure Hibernate
         prop = new Properties();
         //<editor-fold desc="Setting properties">
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://" + System.getenv("DB_URL") + "/andersm");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://" + System.getenv("DB_URL") + "/21_dbfinal");
         prop.setProperty("dialect", "org.hibernate.dialect.MySQL8Dialect");
         prop.setProperty("hibernate.connection.username", System.getenv("DB_USER"));
         prop.setProperty("hibernate.connection.password", System.getenv("DB_PASS"));
         prop.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
         prop.setProperty("hibernate.hbm2ddl.auto", "create"); //Opretter tabeller automatisk
         prop.setProperty("hibernate.hbm2ddl.auto", "update"); //Opdaterer eksisterende tabeller
-        prop.setProperty("hibernate.show_sql", "true"); //If you wish to see the generated sql query
+        // prop.setProperty("hibernate.show_sql", "true"); //If you wish to see the generated sql query
         // prop.setProperty("hibernate.format_sql", "true"); // If you want generated sql to be formatted nicely
         //</editor-fold>
 
@@ -335,12 +335,14 @@ public class HibernateUtils {
         RawMatBatchDAO rmbDAO = new RawMatBatchDAO();
         //</editor-fold>
 
-        System.out.println("Init users\n" + testUsers.get(4) + "\n" + testUsers.get(3));
+        IUser testUser1 = testUsers.get(4);
+        IUser testUser2 = testUsers.get(3);
+        System.out.println("Init users\n" + testUser1 + "\n" + testUser2);
 
         IProduct prod1 = new Product();
         prod1.setProdId(1);
         prod1.setProductName("testProd1");
-        prod1.setUsers(Arrays.asList(testUsers.get(4), testUsers.get(3)));
+        prod1.setUsers(Arrays.asList(testUser1, testUser2));
 
         IRecipe recipe1 = new Recipe();
         recipe1.setAmount(35.0);
@@ -372,45 +374,54 @@ public class HibernateUtils {
 
         System.out.println("Attempting to save the two users now...");
         int autoGenId;
-        autoGenId = uDAO.createUser(ses, testUsers.get(4));
-        testUsers.get(4).setUserId(autoGenId);
-        autoGenId = uDAO.createUser(ses, testUsers.get(3));
-        testUsers.get(3).setUserId(autoGenId);
-        System.out.println("If you're seeing this, it went fine :)\n");
+        autoGenId = uDAO.createUser(ses, testUser1);
+        testUser1.setUserId(autoGenId);
+        autoGenId = uDAO.createUser(ses, testUser2);
+        testUser2.setUserId(autoGenId);
+        System.out.println("If you're reading this, it went fine :)\n");
 
-        System.out.println("Attempting to save the product now!!!");
+        System.out.println("Attempting to save the product now...");
         int prodId;
         prodId = prodDAO.createProduct(ses, prod1);
         prod1.setProdId(prodId);
-        System.out.println("If you're seeing this, it went fine!\n");
+        System.out.println("If you're reading this, it went fine!\n");
 
         System.out.println("Attempting to save product batch...");
-        pBDAO.createProdBatch(ses, pb1);
-        pBDAO.createProdBatch(ses, pb2);
+        int batchId;
+        batchId = pBDAO.createProdBatch(ses, pb1);
+        pb1.setProdBatchId(batchId);
+        batchId = pBDAO.createProdBatch(ses, pb2);
+        pb2.setProdBatchId(batchId);
         System.out.println("If you're reading this, it went fine!");
 
-        System.out.println("\nRetrieving some info now...");
-        System.out.println("Retrieving product...");
-        IProduct retrProd = prodDAO.getProduct(ses, prod1.getProdId());
-        System.out.println("Retrieved product:\n" + retrProd.getProductName());
-        System.out.println("\nIngredients from product:\n\t1:\t" +
-                                   retrProd.getRecipes().get(0).getIngredient().getIngredientName() + "\n\t2:\t" +
-                                   retrProd.getRecipes().get(1).getIngredient().getIngredientName());
-        // System.out.println("Product batch1 status:\n\t" +
-        //                            retrProd.getProdBatch().get(0).getBatchStatus().getProdBatchStatus());
-        // System.out.println("Product batch1 remaining amount:\n\t" +
-        //                            retrProd.getProdBatch().get(0).getRawMatBatches().get(0).getRemaining());
-        System.out.println("Product users:\n\t" +
-                                   retrProd.getUsers().get(0) + "\n\t" +
-                                   retrProd.getUsers().get(1));
-        System.out.println();
+        System.out.println("\nRetrieving some info now...\n");
+        System.out.println("Retrieving users...");
+        IUser retrUser1 = uDAO.getUser(ses, testUser1.getUserId());
+        IUser retrUser2 = uDAO.getUser(ses, testUser2.getUserId());
+        System.out.println("Retrieved Users:" +
+                                   "\n\t" + retrUser1 +
+                                   "\n\t" + retrUser2);
 
-        System.out.println("Deleting test objects now...");
+        System.out.println("\nRetrieving product...");
+        IProduct retrProd = prodDAO.getProduct(ses, prod1.getProdId());
+        System.out.println("Retrieved product:" +
+                                   "\n\tid: " + retrProd.getProdId() +
+                                   "\n\tname: " + retrProd.getProductName());
+
+        System.out.println("\nIngredients from product:" +
+                                   "\n\t1: " + retrProd.getRecipes().get(0).getIngredient().getIngredientName() +
+                                   "\n\t2: " + retrProd.getRecipes().get(1).getIngredient().getIngredientName());
+
+        System.out.println("\nProduct users:" +
+                                   "\n\t" + retrProd.getUsers().get(0) +
+                                   "\n\t" + retrProd.getUsers().get(1));
+
+        System.out.println("\nDeleting test objects now...");
         pBDAO.deleteProdBatch(ses, pb1);
         pBDAO.deleteProdBatch(ses, pb2);
         prodDAO.deleteProduct(ses, prod1);
-        uDAO.deleteUser(ses, testUsers.get(4));
-        uDAO.deleteUser(ses, testUsers.get(3));
+        uDAO.deleteUser(ses, testUser1);
+        uDAO.deleteUser(ses, testUser2);
         System.out.println("Done!");
         ses.close();
     }
